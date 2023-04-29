@@ -1,4 +1,4 @@
-package com.kmualpha.bbiyongi_app.notifications;
+package com.kmualpha.bbiyongi_app;
 
 import android.app.Activity;
 import android.os.Bundle;

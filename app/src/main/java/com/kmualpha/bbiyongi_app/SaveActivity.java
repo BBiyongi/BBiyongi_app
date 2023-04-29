@@ -10,8 +10,6 @@ import android.widget.VideoView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.kmualpha.bbiyongi_app.notifications.PopupActivity;
-
 public class SaveActivity extends AppCompatActivity {
 
     VideoView video;
