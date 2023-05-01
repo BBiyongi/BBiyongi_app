@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="#ffffff">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="비상연락망"
+        android:textColor="#ffffff"
+        android:gravity="center"
+        android:textSize="15dp"
+        android:background="#75a4f4"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:layout_weight="1"
+        android:padding="20dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:text="개인 비상연락망을 추가하지 않으면 112로 설정합니다."
+            android:textSize="12sp"
+            android:textColor="#767F88"
+            android:layout_marginBottom="20dp"/>
+<!--    비상연락망-->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="비상연락망"
+                android:textSize="15sp"
+                android:textColor="#767F88"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="- 기호를 제외하고 입력해주세요"
+                android:textColorHint="#55000000"
+                android:textSize="15sp"
+                android:textColor="#55000000"
+                android:inputType="phone"
+                android:background="@android:color/transparent"/>
+        </LinearLayout>
+<!--    토글-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="비상연락망에 112 포함하기"
+                android:textSize="15sp"/>
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+            <Switch
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textOn="비상연락망 += 112"
+                android:textOff="비상연락망" />
+        </LinearLayout>
+
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#66bdbdbd"
+        android:layout_marginTop="3dp"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="완료"
+        android:textColor="#767F88"
+        android:gravity="center"
+        android:textSize="15dp"
+        android:background="#ffffff"/>
+</LinearLayout>
