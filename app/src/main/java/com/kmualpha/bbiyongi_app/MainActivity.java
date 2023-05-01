@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
         btn_setting = findViewById(R.id.setting);
         btn_setting.setOnClickListener(v -> {
-            Intent intent = new Intent(getApplicationContext(), PopupActivity.class);
+            Intent intent = new Intent(getApplicationContext(), AddressActivity.class);
             startActivity(intent);
         });
     }
