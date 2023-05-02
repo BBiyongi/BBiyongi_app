@@ -27,11 +27,7 @@ public class NotificationsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_notifications);
 
         btn_back_main = (ImageView) findViewById(R.id.btn_back_main);
-        btn_back_main.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        btn_back_main.setOnClickListener(v -> finish());
 
         try {
             this.InitializeData();
@@ -44,16 +40,13 @@ public class NotificationsActivity extends AppCompatActivity {
 
         list_view.setAdapter(myAdapter);
 
-        list_view.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-            @Override
-            public void onItemClick(AdapterView parent, View v, int position, long id){
-                Date date = myAdapter.getItem(position).getDate();
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd(E) HH:mm:ss");
-                String date_str = simpleDateFormat.format(date);
-                Intent intent = new Intent(getApplicationContext(), SaveActivity.class);
-                intent.putExtra("date", date_str);
-                startActivity(intent);
-            }
+        list_view.setOnItemClickListener((parent, v, position, id) -> {
+            Date date = myAdapter.getItem(position).getDate();
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd(E) HH:mm:ss");
+            String date_str = simpleDateFormat.format(date);
+            Intent intent = new Intent(getApplicationContext(), SaveActivity.class);
+            intent.putExtra("date", date_str);
+            startActivity(intent);
         });
     }
 
