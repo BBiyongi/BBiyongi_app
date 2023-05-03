@@ -38,6 +38,7 @@
                 android:textSize="15sp"
                 android:textColor="#767F88"/>
             <EditText
+                android:id="@+id/edit_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="- 기호를 제외하고 입력해주세요"
@@ -63,6 +64,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"/>
             <Switch
+                android:id="@+id/toggle112"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textOn="비상연락망 += 112"
@@ -76,6 +78,7 @@
         android:background="#66bdbdbd"
         android:layout_marginTop="3dp"/>
     <TextView
+        android:id="@+id/btn_set_return"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:text="완료"
