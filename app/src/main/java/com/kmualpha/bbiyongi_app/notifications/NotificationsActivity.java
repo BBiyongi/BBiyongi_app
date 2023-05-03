@@ -26,20 +26,24 @@ public class NotificationsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notifications);
 
+        // 뒤로가기
         btn_back_main = (ImageView) findViewById(R.id.btn_back_main);
         btn_back_main.setOnClickListener(v -> finish());
 
+        // 알림 목록 불러오기
         try {
             this.InitializeData();
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
+        // 알림 목록 불러와서 화면에 표시
         ListView list_view = (ListView) findViewById(R.id.list_view);
         final Adapter myAdapter = new Adapter(this,notificationArrayList);
 
         list_view.setAdapter(myAdapter);
 
+        // 각 알림 intent 전달하여 Save Activity 실행
         list_view.setOnItemClickListener((parent, v, position, id) -> {
             Date date = myAdapter.getItem(position).getDate();
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd(E) HH:mm:ss");
@@ -53,6 +57,7 @@ public class NotificationsActivity extends AppCompatActivity {
     public void InitializeData() throws ParseException {
         notificationArrayList = new ArrayList<Notification>();
 
+        // DB 불러오기
         String[] arr_date =new String[]{"2000-09-02 08:10:55", "2001-02-01 13:40:15", "2002-03-31 10:15:15"};
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

@@ -24,14 +24,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // 권한(문자메시지) 확인
         checkPermission();
 
+        // 액티비티 화면 전환 -> 알림 목록
         btn_notifications = findViewById(R.id.btn_notifications);
         btn_notifications.setOnClickListener(v -> {
             Intent intent = new Intent(getApplicationContext(), NotificationsActivity.class);
             startActivity(intent);
         });
-
+        // 액티비티 화면 전환 -> 비상연락망 설정
         btn_setting = findViewById(R.id.setting);
         btn_setting.setOnClickListener(v -> {
             Intent intent = new Intent(getApplicationContext(), AddressActivity.class);

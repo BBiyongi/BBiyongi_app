@@ -23,6 +23,7 @@ public class PopupActivity extends Activity {
 
         edit_msg = findViewById(R.id.edit_msg);
 
+        // 신고 메시지 필수 요소 간편 입력
         btn_get_pos = findViewById(R.id.btn_get_pos);
         btn_get_pos.setOnClickListener(v-> {
             StringBuffer msg = new StringBuffer();
@@ -47,9 +48,11 @@ public class PopupActivity extends Activity {
             msg.insert(cursor, getResources().getString(R.string.msg_link));
             edit_msg.setText(msg.toString());
         });
+        // 설정 저장
         btn_set_return = findViewById(R.id.btn_set_return);
         btn_set_return.setOnClickListener(v -> {
             String msg = edit_msg.getText().toString();
+            // 필수 요소를 모두 포함하였을 때 저장
             if (msg.contains(getResources().getString(R.string.msg_pos))
                     && msg.contains(getResources().getString(R.string.msg_date))
                     && msg.contains(getResources().getString(R.string.msg_link))) {

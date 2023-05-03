@@ -28,15 +28,18 @@ public class SaveActivity extends AppCompatActivity {
         record_date2 = findViewById(R.id.record_date2);
         record_date2.setText("녹화 일시 " + date);
 
+        // 뒤로가기
         btn_back_notifications = findViewById(R.id.btn_back_notifications);
         btn_back_notifications.setOnClickListener(v -> finish());
 
+        // 액티비티 화면 전환 -> 신고 메시지 형태 설정 팝/
         msg_box = findViewById(R.id.msg_box);
         msg_box.setOnClickListener(v -> {
             Intent i = new Intent(getApplicationContext(), PopupActivity.class);
             startActivity(i);
         });
 
+        // 문자메시지로 신고하기
         btn_police = findViewById(R.id.btn_police);
         btn_police.setOnClickListener(v -> {
             String sms = msg_box.getText().toString();
