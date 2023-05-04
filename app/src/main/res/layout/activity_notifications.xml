@@ -21,7 +21,7 @@
             android:text="알림 내역"
             android:textColor="#ffffff"
             android:gravity="center"
-            android:textSize="15dp"/>
+            android:textSize="20sp"/>
     </FrameLayout>
     <ListView
         android:id="@+id/list_view"

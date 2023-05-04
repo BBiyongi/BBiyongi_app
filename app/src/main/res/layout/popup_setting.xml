@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="180dp"
         android:text="@string/msg_default"
-        android:textSize="12sp"
+        android:textSize="13sp"
         android:textColor="#767F88"
         android:gravity="top"
         android:layout_marginTop="20dp"
@@ -36,6 +36,7 @@
             android:padding="10dp"
             android:text="위치"
             android:textColor="#FFFFFF"
+            android:textSize="13sp"
             android:gravity="center"
             android:background="@drawable/btn_round_yellow"/>
         <View
@@ -48,6 +49,7 @@
             android:padding="10dp"
             android:text="날짜"
             android:textColor="#FFFFFF"
+            android:textSize="13sp"
             android:gravity="center"
             android:background="@drawable/btn_round_yellow"/>
         <View
@@ -60,6 +62,7 @@
             android:padding="10dp"
             android:text="링크"
             android:textColor="#FFFFFF"
+            android:textSize="13sp"
             android:gravity="center"
             android:background="@drawable/btn_round_yellow"/>
     </LinearLayout>
