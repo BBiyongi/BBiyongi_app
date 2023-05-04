@@ -22,6 +22,9 @@ public class PopupActivity extends Activity {
         setContentView(R.layout.popup_setting);
 
         edit_msg = findViewById(R.id.edit_msg);
+//        Intent intent = getIntent();
+//        String msg = intent.getStringExtra()
+//        edit_msg.setText();
 
         // 신고 메시지 필수 요소 간편 입력
         btn_get_pos = findViewById(R.id.btn_get_pos);
