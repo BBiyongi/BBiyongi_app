@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
         checkPermission();
 
         // 액티비티 화면 전환 -> 알림 목록
-        btn_notifications = findViewById(R.id.btn_notifications);
+        btn_notifications = findViewById(R.id.btn_attack);
         btn_notifications.setOnClickListener(v -> {
             Intent intent = new Intent(getApplicationContext(), NotificationsActivity.class);
             startActivity(intent);
