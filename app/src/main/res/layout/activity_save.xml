@@ -8,7 +8,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="#75a4f4">
+        android:background="#0288D1">
         <ImageView
             android:id="@+id/btn_back_notifications"
             android:layout_width="wrap_content"
@@ -18,7 +18,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:text="신고하기"
+            android:text="저장"
             android:textColor="#ffffff"
             android:gravity="center"
             android:textSize="20sp"/>
@@ -41,26 +41,27 @@
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
             android:text="녹화 일시 2023.03.02(Thu) 12:00"
-            android:textColor="#767F88"/>
+            android:textSize="15sp"
+            android:textColor="#212121"/>
         <TextView
             android:id="@+id/btn_police"
             android:layout_width="180dp"
             android:layout_height="50dp"
             android:layout_gravity="center"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="10dp"
             android:text="신고하기"
             android:textColor="#ffffff"
             android:textSize="20sp"
             android:gravity="center"
-            android:background="@drawable/btn_round_pink" />
+            android:background="@drawable/btn_round_red" />
         <TextView
             android:layout_width="350dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:layout_gravity="center"
             android:text="신고 메시지"
             android:textStyle="bold"
-            android:textColor="#767F88"
+            android:textColor="#212121"
             android:textSize="15sp"/>
         <TextView
             android:id="@+id/msg_box"
@@ -83,7 +84,7 @@
             android:layout_gravity="center"
             android:text="신고하기 버튼을 누르면 녹화된 동영상과 위치정보를 112에 전송합니다."
             android:textSize="12sp"
-            android:textColor="#767F88"/>
+            android:textColor="#BDBDBD"/>
 
     </LinearLayout>
 
