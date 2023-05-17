@@ -2,8 +2,6 @@ package com.kmualpha.bbiyongi_app.notifications;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 
@@ -17,14 +15,14 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class NotificationsActivity extends AppCompatActivity {
+public class AttackActivity extends AppCompatActivity {
 
     ImageView btn_back_main;
     ArrayList<Notification> notificationArrayList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_notifications);
+        setContentView(R.layout.activity_attacks);
 
         // 뒤로가기
         btn_back_main = (ImageView) findViewById(R.id.btn_back_main);
@@ -39,7 +37,7 @@ public class NotificationsActivity extends AppCompatActivity {
 
         // 알림 목록 불러와서 화면에 표시
         ListView list_view = (ListView) findViewById(R.id.list_view);
-        final Adapter myAdapter = new Adapter(this,notificationArrayList);
+        final AttackAdapter myAdapter = new AttackAdapter(this,notificationArrayList);
 
         list_view.setAdapter(myAdapter);
 

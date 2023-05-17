@@ -10,13 +10,13 @@ import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.kmualpha.bbiyongi_app.notifications.NotificationsActivity;
+import com.kmualpha.bbiyongi_app.notifications.AttackActivity;
 
 public class MainActivity extends AppCompatActivity {
 
     public static String[] permissionList = new String[] {Manifest.permission.SEND_SMS};
 
-    TextView btn_notifications;
+    TextView btn_attack;
     ImageView btn_setting;
 
     @Override
@@ -28,9 +28,11 @@ public class MainActivity extends AppCompatActivity {
         checkPermission();
 
         // 액티비티 화면 전환 -> 알림 목록
-        btn_notifications = findViewById(R.id.btn_attack);
-        btn_notifications.setOnClickListener(v -> {
-            Intent intent = new Intent(getApplicationContext(), NotificationsActivity.class);
+        btn_attack = findViewById(R.id.btn_attack);
+        btn_attack.setOnClickListener(v -> {
+            Intent intent = new Intent(getApplicationContext(), AttackActivity.class);
+            startActivity(intent);
+        });
             startActivity(intent);
         });
         // 액티비티 화면 전환 -> 비상연락망 설정

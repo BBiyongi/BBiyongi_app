@@ -18,7 +18,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:text="알림 내역"
+            android:text="폭행 감지 내역"
             android:textColor="#ffffff"
             android:gravity="center"
             android:textSize="20sp"/>

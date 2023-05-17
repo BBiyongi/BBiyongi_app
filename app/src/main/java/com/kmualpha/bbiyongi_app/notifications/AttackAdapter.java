@@ -15,13 +15,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Adapter extends BaseAdapter {
+public class AttackAdapter extends BaseAdapter {
 
     Context mContext = null;
     LayoutInflater mLayoutInflater = null;
     ArrayList<Notification> notifications;
 
-    public Adapter(Context context, ArrayList<Notification> notis) {
+    public AttackAdapter(Context context, ArrayList<Notification> notis) {
         mContext = context;
         notifications = notis;
         mLayoutInflater = LayoutInflater.from(mContext);
@@ -44,7 +44,7 @@ public class Adapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View converView, ViewGroup parent) {
-        View view = mLayoutInflater.inflate(R.layout.notification, null);
+        View view = mLayoutInflater.inflate(R.layout.notification_attack, null);
 
         ImageView img_thumbnail = (ImageView)view.findViewById(R.id.img_thumbnail);
         TextView record_date = (TextView)view.findViewById(R.id.record_date);
