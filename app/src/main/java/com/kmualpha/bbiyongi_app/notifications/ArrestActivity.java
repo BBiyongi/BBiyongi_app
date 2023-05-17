@@ -13,6 +13,7 @@ import com.kmualpha.bbiyongi_app.SaveActivity;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 
 public class ArrestActivity extends AppCompatActivity {
@@ -57,11 +58,15 @@ public class ArrestActivity extends AppCompatActivity {
 
         // DB 불러오기
         String[] arr_date =new String[]{"2000-09-02 08:10:55", "2001-02-01 13:40:15", "2002-03-31 10:15:15"};
+        Arrays.sort(arr_date);
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         for (String i : arr_date) {
             Date date = simpleDateFormat.parse(i);
-            notificationArrayList.add(new Notification(R.drawable.siren, date));
+            if (Arrays.binarySearch(arr_date, i) == 0)
+                notificationArrayList.add(new Notification(R.drawable.siren, date, "www.xxx", "CAM00", false));
+            else
+                notificationArrayList.add(new Notification(R.drawable.siren, date, "www.xxx", "CAM00", true));
         }
 //        notificationArrayList.add(new Notification(R.drawable.siren, new Date(String.valueOf(format.parse("2019-09-02 08:10:55")))));
 //        notificationArrayList.add(new Notification(R.drawable.siren, new Date(String.valueOf(format.parse("2001-02-01 13:40:15")))));
