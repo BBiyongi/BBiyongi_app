@@ -1,11 +1,13 @@
 package com.kmualpha.bbiyongi_app.notifications;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,6 +50,7 @@ public class AttackAdapter extends BaseAdapter {
 
         ImageView img_thumbnail = (ImageView)view.findViewById(R.id.img_thumbnail);
         TextView record_date = (TextView)view.findViewById(R.id.record_date);
+        LinearLayout notification = (LinearLayout)view.findViewById(R.id.notification);
         TextView btn_save = (TextView)view.findViewById(R.id.btn_go_save);
 
         Date date = notifications.get(i).getDate();
@@ -56,6 +59,10 @@ public class AttackAdapter extends BaseAdapter {
         String date_str = simpleDateFormat.format(date);
         record_date.setText("녹화 일시\n" + date_str);
 
+        boolean isChecked = notifications.get(i).getChecked();
+        if (!isChecked) {
+            notification.setBackgroundColor(Color.parseColor("#33FFA000"));
+        }
         btn_save.setOnClickListener(v1 -> {
             Toast.makeText(mContext.getApplicationContext(), date_str, Toast.LENGTH_SHORT).show();
         });
