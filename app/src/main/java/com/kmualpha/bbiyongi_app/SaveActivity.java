@@ -13,7 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class SaveActivity extends AppCompatActivity {
 
     VideoView video;
-    TextView record_date2;
+    TextView record_date;
     TextView btn_police;
     ImageView btn_back_notifications;
     TextView msg_box;
@@ -25,8 +25,8 @@ public class SaveActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String date = intent.getStringExtra("date");
-        record_date2 = findViewById(R.id.record_date2);
-        record_date2.setText("녹화 일시 " + date);
+        record_date = findViewById(R.id.record_date);
+        record_date.setText("녹화 일시 " + date);
 
         // 뒤로가기
         btn_back_notifications = findViewById(R.id.btn_back_notifications);
