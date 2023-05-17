@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.kmualpha.bbiyongi_app.notifications.ArrestActivity;
 import com.kmualpha.bbiyongi_app.notifications.AttackActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -17,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
     public static String[] permissionList = new String[] {Manifest.permission.SEND_SMS};
 
     TextView btn_attack;
+    TextView btn_arrest;
     ImageView btn_setting;
 
     @Override
@@ -33,6 +35,9 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(getApplicationContext(), AttackActivity.class);
             startActivity(intent);
         });
+        btn_arrest = findViewById(R.id.btn_arrest);
+        btn_arrest.setOnClickListener(v -> {
+            Intent intent = new Intent(getApplicationContext(), ArrestActivity.class);
             startActivity(intent);
         });
         // 액티비티 화면 전환 -> 비상연락망 설정
