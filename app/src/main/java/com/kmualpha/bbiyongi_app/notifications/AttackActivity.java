@@ -64,9 +64,9 @@ public class AttackActivity extends AppCompatActivity {
         for (String i : arr_date) {
             Date date = simpleDateFormat.parse(i);
             if (Arrays.binarySearch(arr_date, i) == 0)
-                notificationArrayList.add(new Notification(R.drawable.siren, date, "www.xxx", "CAM00", false));
+                notificationArrayList.add(new Notification("attack", R.drawable.siren, date, "www.xxx", "CAM00", false));
             else
-                notificationArrayList.add(new Notification(R.drawable.siren, date, "www.xxx", "CAM00", true));
+                notificationArrayList.add(new Notification("attack", R.drawable.siren, date, "www.xxx", "CAM00", true));
         }
 //        notificationArrayList.add(new Notification(R.drawable.siren, new Date(String.valueOf(format.parse("2019-09-02 08:10:55")))));
 //        notificationArrayList.add(new Notification(R.drawable.siren, new Date(String.valueOf(format.parse("2001-02-01 13:40:15")))));
