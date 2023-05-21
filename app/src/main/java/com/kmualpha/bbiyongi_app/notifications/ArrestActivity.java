@@ -47,8 +47,10 @@ public class ArrestActivity extends AppCompatActivity {
             Date date = myAdapter.getItem(position).getDate();
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd(E) HH:mm:ss");
             String date_str = simpleDateFormat.format(date);
+            String type = myAdapter.getItem(position).getType();
             Intent intent = new Intent(getApplicationContext(), SaveActivity.class);
             intent.putExtra("date", date_str);
+            intent.putExtra("type", type);
             startActivity(intent);
         });
     }

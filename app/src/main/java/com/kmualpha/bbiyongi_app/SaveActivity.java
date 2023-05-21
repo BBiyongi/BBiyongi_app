@@ -25,6 +25,7 @@ public class SaveActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String date = intent.getStringExtra("date");
+        String type = intent.getStringExtra("type");
         record_date = findViewById(R.id.record_date);
         record_date.setText("녹화 일시 " + date);
 
