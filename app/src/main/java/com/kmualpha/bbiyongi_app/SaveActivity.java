@@ -10,10 +10,13 @@ import android.widget.VideoView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.Objects;
+
 public class SaveActivity extends AppCompatActivity {
 
     VideoView video;
     TextView record_date;
+    TextView live_video;
     TextView btn_police;
     ImageView btn_back_notifications;
     TextView msg_box;
@@ -28,6 +31,13 @@ public class SaveActivity extends AppCompatActivity {
         String type = intent.getStringExtra("type");
         record_date = findViewById(R.id.record_date);
         record_date.setText("녹화 일시 " + date);
+        if (Objects.equals(type, "arrest")) {
+            live_video = findViewById(R.id.live_video);
+            live_video.setText("실시간 동영상");
+            live_video.setOnClickListener(v -> {
+
+            });
+        }
 
         // 뒤로가기
         btn_back_notifications = findViewById(R.id.btn_back_notifications);
