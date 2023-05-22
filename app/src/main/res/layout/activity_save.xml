@@ -44,15 +44,6 @@
             android:textSize="15sp"
             android:textColor="#212121"/>
         <TextView
-            android:id="@+id/live_video"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="5dp"
-            android:textSize="18sp"
-            android:textStyle="italic"
-            android:textColor="#212121"/>
-        <TextView
             android:id="@+id/btn_police"
             android:layout_width="180dp"
             android:layout_height="50dp"

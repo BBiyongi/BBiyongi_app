@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
 
     TextView btn_attack;
     TextView btn_arrest;
+    TextView live_video;
     ImageView btn_setting;
 
     @Override
@@ -39,6 +40,11 @@ public class MainActivity extends AppCompatActivity {
         btn_arrest.setOnClickListener(v -> {
             Intent intent = new Intent(getApplicationContext(), ArrestActivity.class);
             startActivity(intent);
+        });
+        // 웹 뷰
+        live_video = findViewById(R.id.live_video);
+        live_video.setOnClickListener(v -> {
+
         });
         // 액티비티 화면 전환 -> 비상연락망 설정
         btn_setting = findViewById(R.id.setting);
