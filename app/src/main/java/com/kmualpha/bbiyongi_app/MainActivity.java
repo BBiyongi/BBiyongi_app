@@ -46,8 +46,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 Log.e("test", "test");
-                String value = snapshot.getValue(String.class);
-                Log.d("MainActivity", String.valueOf(value));
+//                String value = snapshot.getValue(String.class);
+//                Log.d("MainActivity", String.valueOf(value));
             }
 
             @Override
