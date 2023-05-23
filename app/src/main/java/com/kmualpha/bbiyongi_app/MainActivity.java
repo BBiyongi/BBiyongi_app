@@ -1,5 +1,7 @@
 package com.kmualpha.bbiyongi_app;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
@@ -7,9 +9,16 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.kmualpha.bbiyongi_app.notifications.ArrestActivity;
 import com.kmualpha.bbiyongi_app.notifications.AttackActivity;
 
@@ -29,6 +38,35 @@ public class MainActivity extends AppCompatActivity {
 
         // 권한(문자메시지) 확인
         checkPermission();
+
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference ref = database.getReference();
+
+        ref.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                Log.e("test", "test");
+                String value = snapshot.getValue(String.class);
+                Log.d("MainActivity", String.valueOf(value));
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                String value = snapshot.getValue(String.class);
+                Log.d("MainActivity", String.valueOf(value)); // test code
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {}
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {}
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                System.out.println("The read failed: " + error.getCode());
+            }
+        });
 
         // 액티비티 화면 전환 -> 폭행 알림 목록
         btn_attack = findViewById(R.id.btn_attack);
@@ -55,6 +93,9 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
     }
+
+
+
 
     private void checkPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
