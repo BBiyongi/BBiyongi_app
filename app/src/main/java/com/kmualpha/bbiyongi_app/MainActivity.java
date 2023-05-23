@@ -44,7 +44,8 @@ public class MainActivity extends AppCompatActivity {
         // 웹 뷰
         live_video = findViewById(R.id.live_video);
         live_video.setOnClickListener(v -> {
-
+            Intent intent = new Intent(getApplicationContext(), WebViewActivity.class);
+            startActivity(intent);
         });
         // 액티비티 화면 전환 -> 비상연락망 설정
         btn_setting = findViewById(R.id.setting);

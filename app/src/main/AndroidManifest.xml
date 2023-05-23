@@ -27,6 +27,7 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+        <activity android:name=".WebViewActivity" android:label="Webview Activity"/>
         <activity android:name=".notifications.AttackActivity" android:label="Attack Notifications Activity"/>
         <activity android:name=".notifications.ArrestActivity" android:label="Arrest Notifications Activity"/>
         <activity android:name=".SaveActivity" android:label="Save Activity"/>
