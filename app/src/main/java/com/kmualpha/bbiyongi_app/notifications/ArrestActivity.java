@@ -18,7 +18,7 @@ import java.util.Date;
 
 public class ArrestActivity extends AppCompatActivity {
 
-    ImageView btn_back_main;
+    ImageView btn_back;
     ArrayList<Notification> notificationArrayList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,8 +26,8 @@ public class ArrestActivity extends AppCompatActivity {
         setContentView(R.layout.activity_arrests);
 
         // 뒤로가기
-        btn_back_main = (ImageView) findViewById(R.id.btn_back_main);
-        btn_back_main.setOnClickListener(v -> finish());
+        btn_back = (ImageView) findViewById(R.id.btn_back);
+        btn_back.setOnClickListener(v -> finish());
 
         // 알림 목록 불러오기
         try {
