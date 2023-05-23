@@ -29,7 +29,7 @@ public class SaveActivity extends AppCompatActivity {
         record_date = findViewById(R.id.record_date);
         record_date.setText("녹화 일시 " + date);
 
-        // 뒤로가기
+        // 액티비티 화면 전환 -> 뒤로가기
         btn_back = findViewById(R.id.btn_back);
         btn_back.setOnClickListener(v -> finish());
 

@@ -25,7 +25,7 @@ public class ArrestActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_arrests);
 
-        // 뒤로가기
+        // 액티비티 화면 전환 -> 뒤로가기
         btn_back = (ImageView) findViewById(R.id.btn_back);
         btn_back.setOnClickListener(v -> finish());
 

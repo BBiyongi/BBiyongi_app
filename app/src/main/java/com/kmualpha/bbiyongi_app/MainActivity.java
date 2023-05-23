@@ -30,24 +30,25 @@ public class MainActivity extends AppCompatActivity {
         // 권한(문자메시지) 확인
         checkPermission();
 
-        // 액티비티 화면 전환 -> 알림 목록
+        // 액티비티 화면 전환 -> 폭행 알림 목록
         btn_attack = findViewById(R.id.btn_attack);
         btn_attack.setOnClickListener(v -> {
             Intent intent = new Intent(getApplicationContext(), AttackActivity.class);
             startActivity(intent);
         });
+        // 액티비티 화면 전환 -> 심정지 알림 목록
         btn_arrest = findViewById(R.id.btn_arrest);
         btn_arrest.setOnClickListener(v -> {
             Intent intent = new Intent(getApplicationContext(), ArrestActivity.class);
             startActivity(intent);
         });
-        // 웹 뷰
+        // 액티비티 화면 전환 -> 실시간 CCTV
         live_video = findViewById(R.id.live_video);
         live_video.setOnClickListener(v -> {
             Intent intent = new Intent(getApplicationContext(), WebViewActivity.class);
             startActivity(intent);
         });
-        // 액티비티 화면 전환 -> 비상연락망 설정
+        // 액티비티 화면 전환 -> 비상연락망 설정 팝업
         btn_setting = findViewById(R.id.setting);
         btn_setting.setOnClickListener(v -> {
             Intent intent = new Intent(getApplicationContext(), AddressActivity.class);
