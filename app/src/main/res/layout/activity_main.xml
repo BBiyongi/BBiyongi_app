@@ -64,12 +64,21 @@
             android:gravity="center"
             android:background="@drawable/btn_round_red" />
     </LinearLayout>
-
+    <TextView
+        android:id="@+id/live_video"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:text="실시간 동영상 링크"
+        android:textSize="18sp"
+        android:textStyle="italic"
+        android:textColor="#212121"/>
     <ImageView
         android:id="@+id/setting"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="15dp"
         android:padding="5dp"
         android:src="@drawable/ic_baseline_settings"
         android:background="@drawable/btn_circle_gray"/>

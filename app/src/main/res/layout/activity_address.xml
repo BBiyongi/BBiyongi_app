@@ -72,6 +72,7 @@
                 android:id="@+id/toggle112"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:showText="false"
                 android:textOn="비상연락망 += 112"
                 android:textOff="비상연락망" />
         </LinearLayout>

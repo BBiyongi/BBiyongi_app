@@ -13,9 +13,9 @@ import androidx.appcompat.app.AppCompatActivity;
 public class SaveActivity extends AppCompatActivity {
 
     VideoView video;
-    TextView record_date2;
+    TextView record_date;
     TextView btn_police;
-    ImageView btn_back_notifications;
+    ImageView btn_back;
     TextView msg_box;
 
     @Override
@@ -25,12 +25,13 @@ public class SaveActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String date = intent.getStringExtra("date");
-        record_date2 = findViewById(R.id.record_date2);
-        record_date2.setText("녹화 일시 " + date);
+        String type = intent.getStringExtra("type");
+        record_date = findViewById(R.id.record_date);
+        record_date.setText("녹화 일시 " + date);
 
-        // 뒤로가기
-        btn_back_notifications = findViewById(R.id.btn_back_notifications);
-        btn_back_notifications.setOnClickListener(v -> finish());
+        // 액티비티 화면 전환 -> 뒤로가기
+        btn_back = findViewById(R.id.btn_back);
+        btn_back.setOnClickListener(v -> finish());
 
         // 액티비티 화면 전환 -> 신고 메시지 형태 설정 팝업
         msg_box = findViewById(R.id.msg_box);

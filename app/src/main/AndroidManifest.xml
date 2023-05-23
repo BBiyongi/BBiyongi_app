@@ -27,7 +27,9 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-        <activity android:name=".notifications.NotificationsActivity" android:label="Notifications Activity"/>
+        <activity android:name=".WebViewActivity" android:label="Webview Activity"/>
+        <activity android:name=".notifications.AttackActivity" android:label="Attack Notifications Activity"/>
+        <activity android:name=".notifications.ArrestActivity" android:label="Arrest Notifications Activity"/>
         <activity android:name=".SaveActivity" android:label="Save Activity"/>
         <activity android:name=".PopupActivity" android:theme="@android:style/Theme.Dialog"/>
         <activity android:name=".AddressActivity" android:theme="@android:style/Theme.Dialog"/>

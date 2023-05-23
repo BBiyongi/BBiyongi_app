@@ -27,6 +27,7 @@ public class PopupActivity extends Activity {
 //        edit_msg.setText();
 
         // 신고 메시지 필수 요소 간편 입력
+        // 1. 위치 입력
         btn_get_pos = findViewById(R.id.btn_get_pos);
         btn_get_pos.setOnClickListener(v-> {
             StringBuffer msg = new StringBuffer();
@@ -35,6 +36,7 @@ public class PopupActivity extends Activity {
             msg.insert(cursor, getResources().getString(R.string.msg_pos));
             edit_msg.setText(msg.toString());
         });
+        // 2. 날짜 입력
         btn_get_date = findViewById(R.id.btn_get_date);
         btn_get_date.setOnClickListener(v -> {
             StringBuffer msg = new StringBuffer();
@@ -43,6 +45,7 @@ public class PopupActivity extends Activity {
             msg.insert(cursor, getResources().getString(R.string.msg_date));
             edit_msg.setText(msg.toString());
         });
+        // 3. 동영상 링크 입력
         btn_get_link = findViewById(R.id.btn_get_link);
         btn_get_link.setOnClickListener(v -> {
             StringBuffer msg = new StringBuffer();
