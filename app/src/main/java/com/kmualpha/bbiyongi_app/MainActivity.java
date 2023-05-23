@@ -14,13 +14,22 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
 import com.kmualpha.bbiyongi_app.notifications.ArrestActivity;
 import com.kmualpha.bbiyongi_app.notifications.AttackActivity;
+
+import java.io.File;
+import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -68,6 +77,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        FirebaseStorage storage = FirebaseStorage.getInstance("gs://alpha-92011.appspot.com/");
+        Log.e("test", "storage");
+        // 생성된 FirebaseStorage를 참조하는 storage 생성
+        StorageReference storageRef = storage.getReference();
+        Log.e("test", "storageRef");
+        // Storage 내부의 images 폴더 안의 image.jpg 파일명을 가리키는 참조 생성
+//        StorageReference pathReference = storageRef.child("avideo.mp4");
+        Log.e("test", "pathReference");
         // 액티비티 화면 전환 -> 폭행 알림 목록
         btn_attack = findViewById(R.id.btn_attack);
         btn_attack.setOnClickListener(v -> {
