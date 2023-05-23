@@ -85,6 +85,41 @@ public class MainActivity extends AppCompatActivity {
         // Storage 내부의 images 폴더 안의 image.jpg 파일명을 가리키는 참조 생성
 //        StorageReference pathReference = storageRef.child("avideo.mp4");
         Log.e("test", "pathReference");
+//        try{
+//            File path = new File("/data/data/com.kmualpha.bbiyongi_app/test/"); //로컬에 저장할 폴더의 위치
+//            final File file = new File(path, "test_video"); //저장하는 파일의 이름
+//            try {
+//                if (!path.exists()) {
+//                    path.mkdirs(); // 저장할 폴더가 없으면 생성
+//                }
+//                file.createNewFile();
+//                //파일을 다운로드하는 Task 생성, 비동기식으로 진행
+//                final FileDownloadTask fileDownloadTask = pathReference.getFile(file);
+//                fileDownloadTask.addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+//                    @Override
+//                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+//                        //다운로드 성공 후 할 일
+//                        Log.e("test", "download");
+//                    }
+//                }).addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception exception) {
+//                        //다운로드 실패 후 할 일
+//                        Log.e("test", "fail");
+//                        Toast.makeText(getApplicationContext(), "다운로드 실패", Toast.LENGTH_SHORT).show();
+//                    }
+//                }).addOnProgressListener(new OnProgressListener<FileDownloadTask.TaskSnapshot>() {
+//                    @Override
+//                    public void onProgress(FileDownloadTask.TaskSnapshot taskSnapshot) { //진행상태 표시
+//                    }
+//                });
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        } catch(Exception e){
+//            e.printStackTrace();
+//        }
+
         // 액티비티 화면 전환 -> 폭행 알림 목록
         btn_attack = findViewById(R.id.btn_attack);
         btn_attack.setOnClickListener(v -> {
