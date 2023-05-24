@@ -1,5 +1,7 @@
 package com.kmualpha.bbiyongi_app;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
@@ -7,11 +9,27 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
 import com.kmualpha.bbiyongi_app.notifications.ArrestActivity;
 import com.kmualpha.bbiyongi_app.notifications.AttackActivity;
+
+import java.io.File;
+import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -29,6 +47,78 @@ public class MainActivity extends AppCompatActivity {
 
         // 권한(문자메시지) 확인
         checkPermission();
+
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference ref = database.getReference();
+
+        ref.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                Log.e("test", "test");
+//                String value = snapshot.getValue(String.class);
+//                Log.d("MainActivity", String.valueOf(value));
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                String value = snapshot.getValue(String.class);
+                Log.d("MainActivity", String.valueOf(value)); // test code
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {}
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {}
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                System.out.println("The read failed: " + error.getCode());
+            }
+        });
+
+        FirebaseStorage storage = FirebaseStorage.getInstance("gs://alpha-92011.appspot.com/");
+        Log.e("test", "storage");
+        // 생성된 FirebaseStorage를 참조하는 storage 생성
+        StorageReference storageRef = storage.getReference();
+        Log.e("test", "storageRef");
+        // Storage 내부의 images 폴더 안의 image.jpg 파일명을 가리키는 참조 생성
+//        StorageReference pathReference = storageRef.child("avideo.mp4");
+        Log.e("test", "pathReference");
+//        try{
+//            File path = new File("/data/data/com.kmualpha.bbiyongi_app/test/"); //로컬에 저장할 폴더의 위치
+//            final File file = new File(path, "test_video"); //저장하는 파일의 이름
+//            try {
+//                if (!path.exists()) {
+//                    path.mkdirs(); // 저장할 폴더가 없으면 생성
+//                }
+//                file.createNewFile();
+//                //파일을 다운로드하는 Task 생성, 비동기식으로 진행
+//                final FileDownloadTask fileDownloadTask = pathReference.getFile(file);
+//                fileDownloadTask.addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+//                    @Override
+//                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+//                        //다운로드 성공 후 할 일
+//                        Log.e("test", "download");
+//                    }
+//                }).addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception exception) {
+//                        //다운로드 실패 후 할 일
+//                        Log.e("test", "fail");
+//                        Toast.makeText(getApplicationContext(), "다운로드 실패", Toast.LENGTH_SHORT).show();
+//                    }
+//                }).addOnProgressListener(new OnProgressListener<FileDownloadTask.TaskSnapshot>() {
+//                    @Override
+//                    public void onProgress(FileDownloadTask.TaskSnapshot taskSnapshot) { //진행상태 표시
+//                    }
+//                });
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        } catch(Exception e){
+//            e.printStackTrace();
+//        }
 
         // 액티비티 화면 전환 -> 폭행 알림 목록
         btn_attack = findViewById(R.id.btn_attack);
@@ -55,6 +145,9 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
     }
+
+
+
 
     private void checkPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
