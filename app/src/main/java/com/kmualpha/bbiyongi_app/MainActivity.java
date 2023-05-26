@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
         DatabaseReference ref = database.getReference();
 
         ref.addChildEventListener(new ChildEventListener() {
+            // 새로운 자식 노드가 추가되었을 때 호출: 데이터베이스에 새로운 자식이 추가되면 해당 자식 노드의 데이터 스냅샷과 이전 자식의 이름이 전달된다
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 Log.e("test", "test");
@@ -59,18 +60,22 @@ public class MainActivity extends AppCompatActivity {
 //                Log.d("MainActivity", String.valueOf(value));
             }
 
+            // 자식 노드의 데이터가 변경되었을 때 호출: 변경된 자식 노드의 데이터 스냅샷과 이전 자식의 이름이 전달된다
             @Override
             public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                String value = snapshot.getValue(String.class);
+                String value = snapshot.getValue(String.class); // 변경된 값
                 Log.d("MainActivity", String.valueOf(value)); // test code
             }
 
+            // 자식 노드가 삭제되었을 때 호출: 삭제된 자식 노드의 데이터 스냅샷이 전달된다
             @Override
             public void onChildRemoved(@NonNull DataSnapshot snapshot) {}
 
+            // 자식 노드가 이동되었을 때 호출: 이동된 자식 노드의 데이터 스냅샷과 이전 자식의 이름이 전달된다
             @Override
             public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {}
 
+            // 데이터베이스 읽기 작업이 취소되었을 때 호출: 예외가 발생한 경우에 호출되며, 에러 정보를 전달한다
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 System.out.println("The read failed: " + error.getCode());
