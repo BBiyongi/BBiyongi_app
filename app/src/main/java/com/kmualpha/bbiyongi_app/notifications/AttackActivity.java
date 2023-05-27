@@ -70,8 +70,5 @@ public class AttackActivity extends AppCompatActivity {
             else
                 notificationArrayList.add(new Notification("attack", R.drawable.siren, date, "www.xxx", "CAM00", true));
         }
-//        notificationArrayList.add(new Notification(R.drawable.siren, new Date(String.valueOf(format.parse("2019-09-02 08:10:55")))));
-//        notificationArrayList.add(new Notification(R.drawable.siren, new Date(String.valueOf(format.parse("2001-02-01 13:40:15")))));
-//        notificationArrayList.add(new Notification(R.drawable.siren, new Date(String.valueOf(format.parse("2002:03:31 10:15:15")))));
     }
 }

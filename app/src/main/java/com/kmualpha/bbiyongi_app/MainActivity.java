@@ -6,9 +6,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import androidx.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -25,11 +27,16 @@ import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.kmualpha.bbiyongi_app.notifications.ArrestActivity;
 import com.kmualpha.bbiyongi_app.notifications.AttackActivity;
+import com.kmualpha.bbiyongi_app.notifications.Notification;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
     TextView btn_arrest;
     TextView live_video;
     ImageView btn_setting;
+    ArrayList<Notification> notification_list; // 프리퍼런스에서 불러올 알림 목록
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,10 +56,14 @@ public class MainActivity extends AppCompatActivity {
         // 권한(문자메시지) 확인
         checkPermission();
 
+        // 앱을 실행할 때마다 프리퍼런스 불러오기
+        getNotifications();
+
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference ref = database.getReference();
 
         ref.addChildEventListener(new ChildEventListener() {
+            // 새로운 자식 노드가 추가되었을 때 호출: 데이터베이스에 새로운 자식이 추가되면 해당 자식 노드의 데이터 스냅샷과 이전 자식의 이름이 전달된다
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 Log.e("test", "test");
@@ -59,18 +71,22 @@ public class MainActivity extends AppCompatActivity {
 //                Log.d("MainActivity", String.valueOf(value));
             }
 
+            // 자식 노드의 데이터가 변경되었을 때 호출: 변경된 자식 노드의 데이터 스냅샷과 이전 자식의 이름이 전달된다
             @Override
             public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                String value = snapshot.getValue(String.class);
+                String value = snapshot.getValue(String.class); // 변경된 값
                 Log.d("MainActivity", String.valueOf(value)); // test code
             }
 
+            // 자식 노드가 삭제되었을 때 호출: 삭제된 자식 노드의 데이터 스냅샷이 전달된다
             @Override
             public void onChildRemoved(@NonNull DataSnapshot snapshot) {}
 
+            // 자식 노드가 이동되었을 때 호출: 이동된 자식 노드의 데이터 스냅샷과 이전 자식의 이름이 전달된다
             @Override
             public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {}
 
+            // 데이터베이스 읽기 작업이 취소되었을 때 호출: 예외가 발생한 경우에 호출되며, 에러 정보를 전달한다
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 System.out.println("The read failed: " + error.getCode());
@@ -161,5 +177,20 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    private void getNotifications() {
+        // 1. Notification list 불러오기
+        // "notification_list" 키로 저장된 JSON 형태의 문자열을 불러온 후, Gson을 사용하여 역직렬화하여 ArrayList로 변환
+        Gson gson = new Gson();
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        if (preferences.contains("notification_list")) { // 프리퍼런스에 저장되어 있는 notifications 불러오기
+            String json = preferences.getString("notification_list", "");
+            notification_list = gson.fromJson(json, new TypeToken<ArrayList<Notification>>(){}.getType());
+        }
+        else { // 프리퍼런스에 저장되어 있는 notification이 하나도 없을 때
+
+        }
+
     }
 }

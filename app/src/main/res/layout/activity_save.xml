@@ -70,6 +70,8 @@
             android:layout_gravity="center"
             android:layout_marginTop="5dp"
             android:padding="7dp"
+            android:maxLines="5"
+            android:scrollbars="vertical"
             android:text="@string/msg_default"
             android:textColor="#212121"
             android:textSize="12sp"

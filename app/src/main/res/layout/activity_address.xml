@@ -41,10 +41,11 @@
                 android:id="@+id/edit_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:hint="- 기호를 제외하고 입력해주세요"
                 android:textColorHint="#55000000"
-                android:textSize="12sp"
-                android:textColor="#BDBDBD"
+                android:textSize="15sp"
+                android:textColor="#212121"
                 android:inputType="phone"
                 android:background="@android:color/transparent"/>
             <View
@@ -73,8 +74,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:showText="false"
-                android:textOn="비상연락망 += 112"
-                android:textOff="비상연락망" />
+                android:checked="false"
+                android:thumb="@drawable/switch_thumb"
+                android:track="@drawable/selector_switch"
+                android:switchMinWidth="50dp" />
         </LinearLayout>
 
     </LinearLayout>
