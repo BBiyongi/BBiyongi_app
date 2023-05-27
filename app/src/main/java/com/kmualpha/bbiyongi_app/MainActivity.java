@@ -188,6 +188,9 @@ public class MainActivity extends AppCompatActivity {
             String json = preferences.getString("notification_list", "");
             notification_list = gson.fromJson(json, new TypeToken<ArrayList<Notification>>(){}.getType());
         }
+        else { // 프리퍼런스에 저장되어 있는 notification이 하나도 없을 때
+
+        }
 
     }
 }
