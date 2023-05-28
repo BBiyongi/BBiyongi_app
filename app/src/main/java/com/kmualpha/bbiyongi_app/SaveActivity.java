@@ -9,6 +9,10 @@ import android.widget.Toast;
 import android.widget.VideoView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import com.kmualpha.bbiyongi_app.notifications.Notification;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class SaveActivity extends AppCompatActivity {
 
@@ -23,11 +27,15 @@ public class SaveActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_save);
 
+        // 알림 intent 받아와서 화면에 출력
         Intent intent = getIntent();
-        String date = intent.getStringExtra("date");
+        Notification notification = (Notification) intent.getSerializableExtra("notification");
+        Date date = notification.getDate();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy년 MM월 dd일 HH시 mm분 ss초");
+        String dateString = dateFormat.format(date);
         String type = intent.getStringExtra("type");
         record_date = findViewById(R.id.record_date);
-        record_date.setText("녹화 일시 " + date);
+        record_date.setText("녹화 일시 " + dateString);
 
         // 액티비티 화면 전환 -> 뒤로가기
         btn_back = findViewById(R.id.btn_back);

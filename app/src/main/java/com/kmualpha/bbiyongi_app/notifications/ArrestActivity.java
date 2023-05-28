@@ -47,13 +47,8 @@ public class ArrestActivity extends AppCompatActivity {
 
         // 각 알림 intent 전달하여 Save Activity 실행
         list_view.setOnItemClickListener((parent, v, position, id) -> {
-            Date date = myAdapter.getItem(position).getDate();
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd(E) HH:mm:ss");
-            String date_str = simpleDateFormat.format(date);
-            String type = myAdapter.getItem(position).getType();
             Intent intent = new Intent(getApplicationContext(), SaveActivity.class);
-            intent.putExtra("date", date_str);
-            intent.putExtra("type", type);
+            intent.putExtra("notification", myAdapter.getItem(position));
 
             // 아직 확인하지 않은 알림이라면 클릭했을 때 checked 갱신
             boolean checked = myAdapter.getItem(position).getChecked();
