@@ -72,7 +72,7 @@ public class AttackActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         // 알림 클릭 후 다시 목록 화면으로 돌아오면 checked 여부 갱신된 list로 설정
-        final ArrestAdapter myAdapter = new ArrestAdapter(this, notificationArrayList);
+        final AttackAdapter myAdapter = new AttackAdapter(this, notificationArrayList);
         list_view.setAdapter(myAdapter);
     }
 
