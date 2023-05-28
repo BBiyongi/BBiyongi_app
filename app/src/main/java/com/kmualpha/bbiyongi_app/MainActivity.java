@@ -197,9 +197,9 @@ public class MainActivity extends AppCompatActivity {
             attackList = gson.fromJson(json, new TypeToken<ArrayList<Notification>>() {
             }.getType());
         } else { // 프리퍼런스에 저장되어 있는 notification이 하나도 없을 때
-            Notification attnoti1 = new Notification("attack", R.drawable.siren, Date.valueOf("2010-10-10"), "www.xxx", "CAM01", false);
-            Notification attnoti2 = new Notification("attack", R.drawable.siren, Date.valueOf("2001-12-30"), "www.xxx", "CAM01", false);
-            Notification attnoti3 = new Notification("attack", R.drawable.siren, Date.valueOf("2023-05-11"), "www.xxx", "CAM01", true);
+            Notification attnoti1 = new Notification("attack", R.drawable.siren, Date.valueOf("2010-10-10"), "성북구 정릉동", "www.xxx", "CAM01", false);
+            Notification attnoti2 = new Notification("attack", R.drawable.siren, Date.valueOf("2001-12-30"), "강북구 미아동", "www.xxx", "CAM01", false);
+            Notification attnoti3 = new Notification("attack", R.drawable.siren, Date.valueOf("2023-05-11"), "관악구 신림동", "www.xxx", "CAM01", true);
             attackList.add(attnoti1);
             attackList.add(attnoti2);
             attackList.add(attnoti3);
@@ -210,9 +210,9 @@ public class MainActivity extends AppCompatActivity {
             arrestList = gson.fromJson(json, new TypeToken<ArrayList<Notification>>() {
             }.getType());
         } else {
-            Notification arrnoti1 = new Notification("arrest", R.drawable.siren, Date.valueOf("2000-09-02"), "www.xxx", "CAM01", false);
-            Notification arrnoti2 = new Notification("arrest", R.drawable.siren, Date.valueOf("2005-02-01"), "www.xxx", "CAM01", true);
-            Notification arrnoti3 = new Notification("arrest", R.drawable.siren, Date.valueOf("2003-05-25"), "www.xxx", "CAM01", true);
+            Notification arrnoti1 = new Notification("arrest", R.drawable.siren, Date.valueOf("2000-09-02"), "검단구 아라동", "www.xxx", "CAM01", false);
+            Notification arrnoti2 = new Notification("arrest", R.drawable.siren, Date.valueOf("2005-02-01"), "마포구 동교동", "www.xxx", "CAM01", true);
+            Notification arrnoti3 = new Notification("arrest", R.drawable.siren, Date.valueOf("2003-05-25"), "서대문구 연희동", "www.xxx", "CAM01", true);
             arrestList.add(arrnoti1);
             arrestList.add(arrnoti2);
             arrestList.add(arrnoti3);
