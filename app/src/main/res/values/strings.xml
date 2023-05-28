@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">BBiyongi_app</string>
-    <string name="msg_default">[OOOO년 OO월 OO일 OO시 OO분 OO초]\n[OO시 OO구 OO로 OO]에서\n폭행이 감지되었습니다.\n출동 부탁드립니다.\n[녹화된 동영상: www.OOO.OOO]</string>
+    <string name="msg_default">[OOOO년 OO월 OO일 OO시 OO분 OO초]\n[OO시 OO구 OO로 OO]에서\n[type] 감지되었습니다.\n출동 부탁드립니다.\n녹화된 동영상: [www.OOO.OOO]</string>
+    <string name="msg_type">[type]</string>
     <string name="msg_pos">[OO시 OO구 OO로 OO]</string>
     <string name="msg_date">[OOOO년 OO월 OO일 OO시 OO분 OO초]</string>
-    <string name="msg_link">[녹화된 동영상: www.OOO.OOO]</string>
+    <string name="msg_link">[www.OOO.OOO]</string>
 </resources>
