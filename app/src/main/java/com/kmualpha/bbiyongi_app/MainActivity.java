@@ -35,6 +35,8 @@ import com.kmualpha.bbiyongi_app.notifications.Notification;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -46,7 +48,9 @@ public class MainActivity extends AppCompatActivity {
     TextView btn_arrest;
     TextView live_video;
     ImageView btn_setting;
-    ArrayList<Notification> notification_list; // 프리퍼런스에서 불러올 알림 목록
+    ArrayList<Notification> attackList = new ArrayList<>(); // 프리퍼런스에서 불러올 폭행 알림 목록
+    ArrayList<Notification> arrestList = new ArrayList<>(); // 프리퍼런스에서 불러올 심정지 알림 목록
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,13 +143,17 @@ public class MainActivity extends AppCompatActivity {
         // 액티비티 화면 전환 -> 폭행 알림 목록
         btn_attack = findViewById(R.id.btn_attack);
         btn_attack.setOnClickListener(v -> {
-            Intent intent = new Intent(getApplicationContext(), AttackActivity.class);
+            Intent intent = new Intent(this, AttackActivity.class);
+            // attack notifications 목록 intent 넘겨주기
+            intent.putExtra("attackList", attackList);
             startActivity(intent);
         });
         // 액티비티 화면 전환 -> 심정지 알림 목록
         btn_arrest = findViewById(R.id.btn_arrest);
         btn_arrest.setOnClickListener(v -> {
-            Intent intent = new Intent(getApplicationContext(), ArrestActivity.class);
+            Intent intent = new Intent(this, ArrestActivity.class);
+            // arrest notifications 목록 intent 넘겨주기
+            intent.putExtra("arrestList", arrestList);
             startActivity(intent);
         });
         // 액티비티 화면 전환 -> 실시간 CCTV
@@ -180,17 +188,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getNotifications() {
-        // 1. Notification list 불러오기
-        // "notification_list" 키로 저장된 JSON 형태의 문자열을 불러온 후, Gson을 사용하여 역직렬화하여 ArrayList로 변환
+        // 1. attackList 불러오기
+        // "{type}List" 키로 저장된 JSON 형태의 문자열을 불러온 후, Gson을 사용하여 역직렬화하여 ArrayList로 변환
         Gson gson = new Gson();
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        if (preferences.contains("notification_list")) { // 프리퍼런스에 저장되어 있는 notifications 불러오기
-            String json = preferences.getString("notification_list", "");
-            notification_list = gson.fromJson(json, new TypeToken<ArrayList<Notification>>(){}.getType());
+        if (preferences.contains("attackList")) { // 프리퍼런스에 저장되어 있는 폭행 목록 불러오기
+            String json = preferences.getString("attackList", "");
+            attackList = gson.fromJson(json, new TypeToken<ArrayList<Notification>>() {
+            }.getType());
+        } else { // 프리퍼런스에 저장되어 있는 notification이 하나도 없을 때
         }
-        else { // 프리퍼런스에 저장되어 있는 notification이 하나도 없을 때
-
+        // 2. arrestList 불러오기
+        if (preferences.contains("arrestList")) { // 프리퍼런스에 저장되어 있는 심정지 목록 불러오기
+            String json = preferences.getString("arrestList", "");
+            arrestList = gson.fromJson(json, new TypeToken<ArrayList<Notification>>() {
+            }.getType());
+        } else {
         }
-
     }
 }

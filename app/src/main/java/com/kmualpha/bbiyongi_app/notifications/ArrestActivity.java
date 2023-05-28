@@ -13,7 +13,8 @@ import com.kmualpha.bbiyongi_app.SaveActivity;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 
 public class ArrestActivity extends AppCompatActivity {
@@ -56,19 +57,18 @@ public class ArrestActivity extends AppCompatActivity {
     }
 
     public void InitializeData() throws ParseException {
-        notificationArrayList = new ArrayList<Notification>();
+        // 알림 목록 intent 받아와서 불러오기
+        Intent intent = getIntent();
+        notificationArrayList = (ArrayList<Notification>) intent.getSerializableExtra("arrestList");
 
-        // DB 불러오기
-        String[] arr_date =new String[]{"2000-09-02 08:10:55", "2001-02-01 13:40:15", "2002-03-31 10:15:15"};
-        Arrays.sort(arr_date);
-
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        for (String i : arr_date) {
-            Date date = simpleDateFormat.parse(i);
-            if (Arrays.binarySearch(arr_date, i) == 0)
-                notificationArrayList.add(new Notification("arrest", R.drawable.siren, date, "www.xxx", "CAM00", false));
-            else
-                notificationArrayList.add(new Notification("arrest", R.drawable.siren, date, "www.xxx", "CAM00", true));
-        }
+        // date 필드를 기준으로 정렬
+        Collections.sort(notificationArrayList, new Comparator<Notification>() {
+            @Override
+            public int compare(Notification n1, Notification n2) {
+                Date date1 = n1.getDate();
+                Date date2 = n2.getDate();
+                return date1.compareTo(date2);
+            }
+        });
     }
 }

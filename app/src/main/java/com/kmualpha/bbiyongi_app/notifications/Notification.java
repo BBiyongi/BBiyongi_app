@@ -1,9 +1,10 @@
 package com.kmualpha.bbiyongi_app.notifications;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
-public class Notification {
+public class Notification implements Serializable {
     String type;
     int img_url;
     Date date;
