@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.common.util.MapUtils;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -39,6 +40,7 @@ import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -52,6 +54,11 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<Notification> arrestList = new ArrayList<>(); // 프리퍼런스에서 불러올 심정지 알림 목록
 
 
+    // firebase에 저장된 컬렉션 map
+    HashMap<String,String> temp_map = new HashMap<String,String>();  // key & value 임시 저장용 map
+    HashMap<String,String> assault_map = new HashMap<String,String>();  // assault(1) 감지 map
+    HashMap<String,String> cardiacArrest_map = new HashMap<String,String>();  // cardiac arrest(2) 감지 map
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,16 +70,53 @@ public class MainActivity extends AppCompatActivity {
         // 앱을 실행할 때마다 프리퍼런스 불러오기
         getNotifications();
 
+        // firebase 연결
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference ref = database.getReference();
+        DatabaseReference mDatabase = database.getReference();
 
-        ref.addChildEventListener(new ChildEventListener() {
+        mDatabase.addChildEventListener(new ChildEventListener() {
             // 새로운 자식 노드가 추가되었을 때 호출: 데이터베이스에 새로운 자식이 추가되면 해당 자식 노드의 데이터 스냅샷과 이전 자식의 이름이 전달된다
+            // firebase 데이터 받기
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 Log.e("test", "test");
 //                String value = snapshot.getValue(String.class);
 //                Log.d("MainActivity", String.valueOf(value));
+                Log.e("test", "entering onChildAdded for test");  // 테스트용
+                Log.d("test", "current top Key: " + String.valueOf(snapshot.getKey()));  // 테스트용 - 최상위 key(발생 시기) 조회
+
+                // 하위 key & value 가져오기
+                for (DataSnapshot childSnapshot : snapshot.getChildren()) {
+                    String childKey = childSnapshot.getKey();
+                    String childValue = childSnapshot.getValue(String.class);
+                    Log.d("test", "Child Key: " + childKey + ", Child Value: " + childValue);
+
+                    temp_map.put(childKey, childValue);
+
+                    // detect가 assault(1)이나 cardiac arrest(2)가 아닌 경우
+                    if ((childKey.equals("detect")) && (!(childValue.equals("1")) && !(childValue.equals("2")))) {
+                        temp_map.clear();  // 초기화
+                        break;
+                    }
+                }
+                Log.d("test", "temp_map: " + String.valueOf(temp_map));
+
+                if (!temp_map.isEmpty()) {
+                    // detect가 assault(1)일 경우
+                    if (temp_map.get("detect").equals("1")) {
+                        assault_map.putAll(temp_map);
+                        temp_map.clear();  // 초기화
+                        Log.d("test", "assault_map: " + String.valueOf(assault_map));
+                    }
+                    // detect가 cardiac arrest(2)일 경우
+                    else if (temp_map.get("detect").equals("2")) {
+                        cardiacArrest_map.putAll(temp_map);
+                        temp_map.clear();  // 초기화
+                        Log.d("test", "cardiacArrest_map: " + String.valueOf(cardiacArrest_map));
+                    }
+
+                    Log.d("test", "clear temp_map: " + String.valueOf(temp_map));
+                }
             }
 
             // 자식 노드의 데이터가 변경되었을 때 호출: 변경된 자식 노드의 데이터 스냅샷과 이전 자식의 이름이 전달된다
@@ -103,42 +147,8 @@ public class MainActivity extends AppCompatActivity {
         StorageReference storageRef = storage.getReference();
         Log.e("test", "storageRef");
         // Storage 내부의 images 폴더 안의 image.jpg 파일명을 가리키는 참조 생성
-//        StorageReference pathReference = storageRef.child("avideo.mp4");
+        // StorageReference pathReference = storageRef.child("avideo.mp4");
         Log.e("test", "pathReference");
-//        try{
-//            File path = new File("/data/data/com.kmualpha.bbiyongi_app/test/"); //로컬에 저장할 폴더의 위치
-//            final File file = new File(path, "test_video"); //저장하는 파일의 이름
-//            try {
-//                if (!path.exists()) {
-//                    path.mkdirs(); // 저장할 폴더가 없으면 생성
-//                }
-//                file.createNewFile();
-//                //파일을 다운로드하는 Task 생성, 비동기식으로 진행
-//                final FileDownloadTask fileDownloadTask = pathReference.getFile(file);
-//                fileDownloadTask.addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-//                    @Override
-//                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-//                        //다운로드 성공 후 할 일
-//                        Log.e("test", "download");
-//                    }
-//                }).addOnFailureListener(new OnFailureListener() {
-//                    @Override
-//                    public void onFailure(@NonNull Exception exception) {
-//                        //다운로드 실패 후 할 일
-//                        Log.e("test", "fail");
-//                        Toast.makeText(getApplicationContext(), "다운로드 실패", Toast.LENGTH_SHORT).show();
-//                    }
-//                }).addOnProgressListener(new OnProgressListener<FileDownloadTask.TaskSnapshot>() {
-//                    @Override
-//                    public void onProgress(FileDownloadTask.TaskSnapshot taskSnapshot) { //진행상태 표시
-//                    }
-//                });
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        } catch(Exception e){
-//            e.printStackTrace();
-//        }
 
         // 액티비티 화면 전환 -> 폭행 알림 목록
         btn_attack = findViewById(R.id.btn_attack);
@@ -169,9 +179,6 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
     }
-
-
-
 
     private void checkPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
