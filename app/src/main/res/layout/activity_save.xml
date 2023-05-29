@@ -44,6 +44,13 @@
             android:textSize="15sp"
             android:textColor="#212121"/>
         <TextView
+            android:id="@+id/aed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:textColor="#212121"/>
+        <TextView
             android:id="@+id/btn_police"
             android:layout_width="180dp"
             android:layout_height="50dp"
@@ -74,7 +81,7 @@
             android:scrollbars="vertical"
             android:text="@string/msg_default"
             android:textColor="#212121"
-            android:textSize="12sp"
+            android:textSize="15sp"
             android:background="@drawable/btn_round_blue"/>
         <View
             android:layout_width="0dp"

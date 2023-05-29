@@ -43,6 +43,14 @@ public class SaveActivity extends AppCompatActivity {
         record_date = findViewById(R.id.record_date);
         record_date.setText("녹화 일시 " + dateString);
 
+        // 심정지 알림일 때만 AED 위치 표시
+        TextView aed = findViewById(R.id.aed);
+        if (Objects.equals(type, "arrest")) {
+            aed.setText("가장 가까운 자동 제세동기는 " + notification.getPos() + "에 있습니다");
+        } else {
+            aed.setVisibility(View.GONE);
+        }
+
         // 액티비티 화면 전환 -> 뒤로가기
         btn_back = findViewById(R.id.btn_back);
         btn_back.setOnClickListener(v -> finish());
