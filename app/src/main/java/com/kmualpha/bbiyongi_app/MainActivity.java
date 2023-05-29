@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.common.util.MapUtils;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -37,6 +38,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -47,6 +49,11 @@ public class MainActivity extends AppCompatActivity {
     TextView live_video;
     ImageView btn_setting;
     ArrayList<Notification> notification_list; // 프리퍼런스에서 불러올 알림 목록
+
+    // firebase에 저장된 컬렉션 map
+    HashMap<String,String> temp_map = new HashMap<String,String>();  // key & value 임시 저장용 map
+    HashMap<String,String> assault_map = new HashMap<String,String>();  // assault(1) 감지 map
+    HashMap<String,String> cardiacArrest_map = new HashMap<String,String>();  // cardiac arrest(2) 감지 map
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,16 +66,55 @@ public class MainActivity extends AppCompatActivity {
         // 앱을 실행할 때마다 프리퍼런스 불러오기
         getNotifications();
 
+        // firebase 연결
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference ref = database.getReference();
+        DatabaseReference mDatabase = database.getReference();
 
         ref.addChildEventListener(new ChildEventListener() {
             // 새로운 자식 노드가 추가되었을 때 호출: 데이터베이스에 새로운 자식이 추가되면 해당 자식 노드의 데이터 스냅샷과 이전 자식의 이름이 전달된다
+        // firebase 데이터 받기
+        mDatabase.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 Log.e("test", "test");
 //                String value = snapshot.getValue(String.class);
 //                Log.d("MainActivity", String.valueOf(value));
+                Log.e("test", "entering onChildAdded for test");  // 테스트용
+                Log.d("test", "current top Key: " + String.valueOf(snapshot.getKey()));  // 테스트용 - 최상위 key(발생 시기) 조회
+
+                // 하위 key & value 가져오기
+                for (DataSnapshot childSnapshot : snapshot.getChildren()) {
+                    String childKey = childSnapshot.getKey();
+                    String childValue = childSnapshot.getValue(String.class);
+                    Log.d("test", "Child Key: " + childKey + ", Child Value: " + childValue);
+
+                    temp_map.put(childKey, childValue);
+
+                    // detect가 assault(1)이나 cardiac arrest(2)가 아닌 경우
+                    if ((childKey.equals("detect")) && (!(childValue.equals("1")) && !(childValue.equals("2")))) {
+                        temp_map.clear();  // 초기화
+                        break;
+                    }
+                }
+                Log.d("test", "temp_map: " + String.valueOf(temp_map));
+
+                if (!temp_map.isEmpty()) {
+                    // detect가 assault(1)일 경우
+                    if (temp_map.get("detect").equals("1")) {
+                        assault_map.putAll(temp_map);
+                        temp_map.clear();  // 초기화
+                        Log.d("test", "assault_map: " + String.valueOf(assault_map));
+                    }
+                    // detect가 cardiac arrest(2)일 경우
+                    else if (temp_map.get("detect").equals("2")) {
+                        cardiacArrest_map.putAll(temp_map);
+                        temp_map.clear();  // 초기화
+                        Log.d("test", "cardiacArrest_map: " + String.valueOf(cardiacArrest_map));
+                    }
+
+                    Log.d("test", "clear temp_map: " + String.valueOf(temp_map));
+                }
             }
 
             // 자식 노드의 데이터가 변경되었을 때 호출: 변경된 자식 노드의 데이터 스냅샷과 이전 자식의 이름이 전달된다
@@ -77,6 +123,7 @@ public class MainActivity extends AppCompatActivity {
                 String value = snapshot.getValue(String.class); // 변경된 값
                 Log.d("MainActivity", String.valueOf(value)); // test code
             }
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {}
 
             // 자식 노드가 삭제되었을 때 호출: 삭제된 자식 노드의 데이터 스냅샷이 전달된다
             @Override
