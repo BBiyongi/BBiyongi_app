@@ -61,7 +61,6 @@ public class AddressActivity extends Activity {
                     editor.putString("contain112", contain112?"true":"false");
                     editor.apply(); // 변경사항 저장
                     Toast.makeText(getApplicationContext(), "저장되었습니다", Toast.LENGTH_SHORT).show();
-                    finish();
                 }
             }
             // 2. 입력한 전화번호가 없다면

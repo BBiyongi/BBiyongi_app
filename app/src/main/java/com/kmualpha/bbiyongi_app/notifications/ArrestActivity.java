@@ -13,13 +13,16 @@ import com.kmualpha.bbiyongi_app.SaveActivity;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 
 public class ArrestActivity extends AppCompatActivity {
 
     ImageView btn_back;
-    ArrayList<Notification> notificationArrayList;
+    ListView list_view;
+    ArrayList<Notification> notificationArrayList = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,38 +40,50 @@ public class ArrestActivity extends AppCompatActivity {
         }
 
         // 알림 목록 불러와서 화면에 표시
-        ListView list_view = (ListView) findViewById(R.id.list_view);
+        list_view = (ListView) findViewById(R.id.list_view);
         final ArrestAdapter myAdapter = new ArrestAdapter(this,notificationArrayList);
 
         list_view.setAdapter(myAdapter);
 
         // 각 알림 intent 전달하여 Save Activity 실행
         list_view.setOnItemClickListener((parent, v, position, id) -> {
-            Date date = myAdapter.getItem(position).getDate();
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd(E) HH:mm:ss");
-            String date_str = simpleDateFormat.format(date);
-            String type = myAdapter.getItem(position).getType();
             Intent intent = new Intent(getApplicationContext(), SaveActivity.class);
-            intent.putExtra("date", date_str);
-            intent.putExtra("type", type);
+            intent.putExtra("notification", myAdapter.getItem(position));
+
+            // 아직 확인하지 않은 알림이라면 클릭했을 때 checked 갱신
+            boolean checked = myAdapter.getItem(position).getChecked();
+            if (!checked) {
+                myAdapter.getItem(position).checked = true;
+                Notification noti = notificationArrayList.get(position);
+                noti.checked = true;
+                notificationArrayList.set(position, noti);
+            }
             startActivity(intent);
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // 알림 클릭 후 다시 목록 화면으로 돌아오면 checked 여부 갱신된 list로 설정
+        final ArrestAdapter myAdapter = new ArrestAdapter(this, notificationArrayList);
+        list_view.setAdapter(myAdapter);
+    }
+
+
     public void InitializeData() throws ParseException {
-        notificationArrayList = new ArrayList<Notification>();
+        // 알림 목록 intent 받아와서 불러오기
+        Intent intent = getIntent();
+        notificationArrayList = (ArrayList<Notification>) intent.getSerializableExtra("arrestList");
 
-        // DB 불러오기
-        String[] arr_date =new String[]{"2000-09-02 08:10:55", "2001-02-01 13:40:15", "2002-03-31 10:15:15"};
-        Arrays.sort(arr_date);
-
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        for (String i : arr_date) {
-            Date date = simpleDateFormat.parse(i);
-            if (Arrays.binarySearch(arr_date, i) == 0)
-                notificationArrayList.add(new Notification("arrest", R.drawable.siren, date, "www.xxx", "CAM00", false));
-            else
-                notificationArrayList.add(new Notification("arrest", R.drawable.siren, date, "www.xxx", "CAM00", true));
-        }
+        // date 필드를 기준으로 정렬
+        Collections.sort(notificationArrayList, new Comparator<Notification>() {
+            @Override
+            public int compare(Notification n1, Notification n2) {
+                Date date1 = n1.getDate();
+                Date date2 = n2.getDate();
+                return date1.compareTo(date2);
+            }
+        });
     }
 }

@@ -36,6 +36,8 @@ import com.kmualpha.bbiyongi_app.notifications.Notification;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.HashMap;
@@ -48,7 +50,9 @@ public class MainActivity extends AppCompatActivity {
     TextView btn_arrest;
     TextView live_video;
     ImageView btn_setting;
-    ArrayList<Notification> notification_list; // 프리퍼런스에서 불러올 알림 목록
+    ArrayList<Notification> attackList = new ArrayList<>(); // 프리퍼런스에서 불러올 폭행 알림 목록
+    ArrayList<Notification> arrestList = new ArrayList<>(); // 프리퍼런스에서 불러올 심정지 알림 목록
+
 
     // firebase에 저장된 컬렉션 map
     HashMap<String,String> temp_map = new HashMap<String,String>();  // key & value 임시 저장용 map
@@ -149,13 +153,17 @@ public class MainActivity extends AppCompatActivity {
         // 액티비티 화면 전환 -> 폭행 알림 목록
         btn_attack = findViewById(R.id.btn_attack);
         btn_attack.setOnClickListener(v -> {
-            Intent intent = new Intent(getApplicationContext(), AttackActivity.class);
+            Intent intent = new Intent(this, AttackActivity.class);
+            // attack notifications 목록 intent 넘겨주기
+            intent.putExtra("attackList", attackList);
             startActivity(intent);
         });
         // 액티비티 화면 전환 -> 심정지 알림 목록
         btn_arrest = findViewById(R.id.btn_arrest);
         btn_arrest.setOnClickListener(v -> {
-            Intent intent = new Intent(getApplicationContext(), ArrestActivity.class);
+            Intent intent = new Intent(this, ArrestActivity.class);
+            // arrest notifications 목록 intent 넘겨주기
+            intent.putExtra("arrestList", arrestList);
             startActivity(intent);
         });
         // 액티비티 화면 전환 -> 실시간 CCTV
@@ -187,16 +195,34 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getNotifications() {
-        // 1. Notification list 불러오기
-        // "notification_list" 키로 저장된 JSON 형태의 문자열을 불러온 후, Gson을 사용하여 역직렬화하여 ArrayList로 변환
+        // 1. attackList 불러오기
+        // "{type}List" 키로 저장된 JSON 형태의 문자열을 불러온 후, Gson을 사용하여 역직렬화하여 ArrayList로 변환
         Gson gson = new Gson();
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        if (preferences.contains("notification_list")) { // 프리퍼런스에 저장되어 있는 notifications 불러오기
-            String json = preferences.getString("notification_list", "");
-            notification_list = gson.fromJson(json, new TypeToken<ArrayList<Notification>>(){}.getType());
+        if (preferences.contains("attackList")) { // 프리퍼런스에 저장되어 있는 폭행 목록 불러오기
+            String json = preferences.getString("attackList", "");
+            attackList = gson.fromJson(json, new TypeToken<ArrayList<Notification>>() {
+            }.getType());
+        } else { // 프리퍼런스에 저장되어 있는 notification이 하나도 없을 때
+            Notification attnoti1 = new Notification("attack", R.drawable.siren, Date.valueOf("2010-10-10"), "성북구 정릉동", "www.xxx", "CAM01", false);
+            Notification attnoti2 = new Notification("attack", R.drawable.siren, Date.valueOf("2001-12-30"), "강북구 미아동", "www.xxx", "CAM01", false);
+            Notification attnoti3 = new Notification("attack", R.drawable.siren, Date.valueOf("2023-05-11"), "관악구 신림동", "www.xxx", "CAM01", true);
+            attackList.add(attnoti1);
+            attackList.add(attnoti2);
+            attackList.add(attnoti3);
         }
-        else { // 프리퍼런스에 저장되어 있는 notification이 하나도 없을 때
-
+        // 2. arrestList 불러오기
+        if (preferences.contains("arrestList")) { // 프리퍼런스에 저장되어 있는 심정지 목록 불러오기
+            String json = preferences.getString("arrestList", "");
+            arrestList = gson.fromJson(json, new TypeToken<ArrayList<Notification>>() {
+            }.getType());
+        } else {
+            Notification arrnoti1 = new Notification("arrest", R.drawable.siren, Date.valueOf("2000-09-02"), "검단구 아라동", "www.xxx", "CAM01", false);
+            Notification arrnoti2 = new Notification("arrest", R.drawable.siren, Date.valueOf("2005-02-01"), "마포구 동교동", "www.xxx", "CAM01", true);
+            Notification arrnoti3 = new Notification("arrest", R.drawable.siren, Date.valueOf("2003-05-25"), "서대문구 연희동", "www.xxx", "CAM01", true);
+            arrestList.add(arrnoti1);
+            arrestList.add(arrnoti2);
+            arrestList.add(arrnoti3);
         }
     }
 }
