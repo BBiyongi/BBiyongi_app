@@ -56,8 +56,6 @@ public class MainActivity extends AppCompatActivity {
 
     // firebase에 저장된 컬렉션 map
     HashMap<String,String> temp_map = new HashMap<String,String>();  // key & value 임시 저장용 map
-    HashMap<String,String> assault_map = new HashMap<String,String>();  // assault(1) 감지 map
-    HashMap<String,String> cardiacArrest_map = new HashMap<String,String>();  // cardiac arrest(2) 감지 map
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,17 +102,22 @@ public class MainActivity extends AppCompatActivity {
                 if (!temp_map.isEmpty()) {
                     // detect가 assault(1)일 경우
                     if (temp_map.get("detect").equals("1")) {
-                        assault_map.putAll(temp_map);
+                        // preference로 map 넘겨주기
+                        Notification data = new Notification(temp_map.get("detect"), R.drawable.siren, Date.valueOf("2010-10-10"), temp_map.get("address"), "", "cam_id", false);
+                        attackList.add(data);
+                        Log.d("test", "assault_list: " + String.valueOf(attackList.toString()));
+
                         temp_map.clear();  // 초기화
-                        Log.d("test", "assault_map: " + String.valueOf(assault_map));
                     }
                     // detect가 cardiac arrest(2)일 경우
                     else if (temp_map.get("detect").equals("2")) {
-                        cardiacArrest_map.putAll(temp_map);
-                        temp_map.clear();  // 초기화
-                        Log.d("test", "cardiacArrest_map: " + String.valueOf(cardiacArrest_map));
-                    }
+                        // preference로 map 넘겨주기
+                        Notification data = new Notification(temp_map.get("detect"), R.drawable.siren, Date.valueOf("2010-10-10"), temp_map.get("address"), "", "cam_id", false);
+                        arrestList.add(data);
+                        Log.d("test", "assault_list: " + String.valueOf(arrestList));
 
+                        temp_map.clear();  // 초기화
+                    }
                     Log.d("test", "clear temp_map: " + String.valueOf(temp_map));
                 }
             }
