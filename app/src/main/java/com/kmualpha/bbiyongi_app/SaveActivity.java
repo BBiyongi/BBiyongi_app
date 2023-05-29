@@ -83,7 +83,6 @@ public class SaveActivity extends AppCompatActivity {
                 SmsManager smsManager = SmsManager.getDefault();
                 ArrayList<String> parts = smsManager.divideMessage(sms); // 메시지 분할
                 smsManager.sendMultipartTextMessage("+821085441920", null, parts, null, null);
-                Log.e("test", "sms");
                 Toast.makeText(getApplicationContext(), "전송을 완료하였습니다.", Toast.LENGTH_SHORT).show();
             }
             catch (Exception e) {
@@ -98,7 +97,6 @@ public class SaveActivity extends AppCompatActivity {
         super.onResume();
         // 간편 신고 메시지 프리퍼런스 불러오기
         String message = preferences.getString("messageForm", getString(R.string.msg_default));
-        Log.e("testmessage", message);
         String msg = message.replace(getString(R.string.msg_date), new SimpleDateFormat("yyyy년 MM월 dd일 HH시 mm분 ss초").format(notification.getDate()))
                 .replace(getString(R.string.msg_link), notification.getLink())
                 .replace(getString(R.string.msg_pos), notification.getPos())
