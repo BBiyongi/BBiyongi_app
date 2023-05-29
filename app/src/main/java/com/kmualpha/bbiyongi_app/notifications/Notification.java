@@ -33,4 +33,10 @@ public class Notification implements Serializable {
     public String getLink() { return this.link; }
     public String getCam_id() { return this.cam_id; }
     public boolean getChecked() { return this.checked; }
+
+    @Override
+    public String toString() {
+        return "type: " + type + ", date: " + date + ", pos: " + pos + ", link: " + link + ", camId: " + cam_id + ", checked: " + checked;
+    }
+
 }
