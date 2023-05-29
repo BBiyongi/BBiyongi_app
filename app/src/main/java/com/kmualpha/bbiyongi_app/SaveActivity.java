@@ -15,11 +15,14 @@ import androidx.preference.PreferenceManager;
 import com.kmualpha.bbiyongi_app.notifications.Notification;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;
 
 public class SaveActivity extends AppCompatActivity {
 
+    SharedPreferences preferences;
+    Notification notification;
     VideoView video;
     TextView record_date;
     TextView btn_police;
@@ -31,11 +34,11 @@ public class SaveActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_save);
 
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
         // 알림 intent 받아와서 화면에 출력
         Intent intent = getIntent();
-        Notification notification = (Notification) intent.getSerializableExtra("notification");
+        notification = (Notification) intent.getSerializableExtra("notification");
         Date date = notification.getDate();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy년 MM월 dd일 HH시 mm분 ss초");
         String dateString = dateFormat.format(date);
@@ -77,7 +80,9 @@ public class SaveActivity extends AppCompatActivity {
             String sms = msg_box.getText().toString();
             try{
                 SmsManager smsManager = SmsManager.getDefault();
-                smsManager.sendTextMessage("+821085441920", null, sms, null, null);
+                ArrayList<String> parts = smsManager.divideMessage(sms); // 메시지 분할
+                smsManager.sendMultipartTextMessage("+821085441920", null, parts, null, null);
+                Log.e("test", "sms");
                 Toast.makeText(getApplicationContext(), "전송을 완료하였습니다.", Toast.LENGTH_SHORT).show();
             }
             catch (Exception e) {
