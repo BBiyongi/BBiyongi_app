@@ -27,12 +27,8 @@ public class Notification implements Serializable {
     }
 
     public String getType() { return this.type; }
-    public int getImg_url() {
-        return this.img_url;
-    }
-    public Date getDate() {
-        return this.date;
-    }
+    public int getImg_url() { return this.img_url; }
+    public Date getDate() { return this.date; }
     public String getPos() { return this.pos; }
     public String getLink() { return this.link; }
     public String getCam_id() { return this.cam_id; }
