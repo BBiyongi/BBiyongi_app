@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.telephony.SmsManager;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -89,5 +90,19 @@ public class SaveActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "전송을 실패하였습니다. 다시 시도해 주세요", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    // 신고 메시지 저장 후 신고 화면으로 돌아오면 새로 저장된 메시지 form으로 setting
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // 간편 신고 메시지 프리퍼런스 불러오기
+        String message = preferences.getString("messageForm", getString(R.string.msg_default));
+        Log.e("testmessage", message);
+        String msg = message.replace(getString(R.string.msg_date), new SimpleDateFormat("yyyy년 MM월 dd일 HH시 mm분 ss초").format(notification.getDate()))
+                .replace(getString(R.string.msg_link), notification.getLink())
+                .replace(getString(R.string.msg_pos), notification.getPos())
+                .replace(getString(R.string.msg_type), Objects.equals(notification.getType(), "arrest") ?"심정지가":"폭행이");
+        msg_box.setText(msg);
     }
 }
