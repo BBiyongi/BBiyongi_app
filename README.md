@@ -39,17 +39,17 @@ Commit message 는 제목, 본문, 꼬리말로 구성합니다. 제목은 필�
 
 ### Commit Message Emoji
 
-| 아이콘 | 코드 | 설명 | 원문 |
-| --- | --- | --- | --- |
-| 🎨 | :art: | 코드의 구조/형태 개선 | Improve structure / format of the code. |
-| 🔥 | :fire: | 코드/파일 삭제 | Remove code or files. |
-| 🐛 | :bug: | 버그 수정 | Fix a bug. |
-| ✨ | :sparkles: | 새 기능 | Introduce new features. |
-| 📝 | :memo: | 문서 추가/수정 | Add or update documentation. |
-| 💄 | :lipstick: | UI/스타일 파일 추가/수정 | Add or update the UI and style files. |
-| ✅ | :white_check_mark: | 테스트 추가/수정 | Add or update tests. |
-| ♻️ | :recycle: | 코드 리팩토링 | Refactor code. |
-| ➕ | :heavy_plus_sign: | 의존성 추가 | Add a dependency. |
-| 🔀 | :twisted_rightwards_arrows: | 브랜치 합병 | Merge branches. |
-| 💡 | :bulb: | 주석 추가/수정 | Add or update comments in source code. |
+| 아이콘 | 설명 | 원문 |
+| --- |  --- | --- |
+| 🎨 | art | 코드의 구조/형태 개선 | Improve structure / format of the code. |
+| 🔥 | fire | 코드/파일 삭제 | Remove code or files. |
+| 🐛 | bug | 버그 수정 | Fix a bug. |
+| ✨ | sparkles | 새 기능 | Introduce new features. |
+| 📝 | memo | 문서 추가/수정 | Add or update documentation. |
+| 💄 | lipstick | UI/스타일 파일 추가/수정 | Add or update the UI and style files. |
+| ✅ | white_check_mark | 테스트 추가/수정 | Add or update tests. |
+| ♻️ | recycle | 코드 리팩토링 | Refactor code. |
+| ➕ | heavy_plus_sign | 의존성 추가 | Add a dependency. |
+| 🔀 | twisted_rightwards_arrows | 브랜치 합병 | Merge branches. |
+| 💡 | bulb | 주석 추가/수정 | Add or update comments in source code. |
 
