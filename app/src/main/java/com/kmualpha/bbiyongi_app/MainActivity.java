@@ -14,7 +14,6 @@ import androidx.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -36,20 +35,13 @@ import com.kmualpha.bbiyongi_app.notifications.Notification;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.Date;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Objects;
 import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
 
     public static String[] permissionList = new String[] {Manifest.permission.SEND_SMS};
 
-    TextView btn_attack;
-    TextView btn_arrest;
-    TextView live_video;
-    ImageView btn_setting;
     ArrayList<Notification> attackList = new ArrayList<>(); // 프리퍼런스에서 불러올 폭행 알림 목록
     ArrayList<Notification> arrestList = new ArrayList<>(); // 프리퍼런스에서 불러올 심정지 알림 목록
     ArrayList<String> attackDate = new ArrayList<>(); // 프리퍼런스에서 불러올 폭행 알림 날짜
@@ -162,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
         Log.e("test", "pathReference");
 
         // 액티비티 화면 전환 -> 폭행 알림 목록
-        btn_attack = findViewById(R.id.btn_attack);
+        TextView btn_attack = findViewById(R.id.btn_attack);
         btn_attack.setOnClickListener(v -> {
             Intent intent = new Intent(this, AttackActivity.class);
             // attack notifications 목록 intent 넘겨주기
@@ -170,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
         // 액티비티 화면 전환 -> 심정지 알림 목록
-        btn_arrest = findViewById(R.id.btn_arrest);
+        TextView btn_arrest = findViewById(R.id.btn_arrest);
         btn_arrest.setOnClickListener(v -> {
             Intent intent = new Intent(this, ArrestActivity.class);
             // arrest notifications 목록 intent 넘겨주기
@@ -178,13 +170,13 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
         // 액티비티 화면 전환 -> 실시간 CCTV
-        live_video = findViewById(R.id.live_video);
+        TextView live_video = findViewById(R.id.live_video);
         live_video.setOnClickListener(v -> {
             Intent intent = new Intent(getApplicationContext(), WebViewActivity.class);
             startActivity(intent);
         });
         // 액티비티 화면 전환 -> 비상연락망 설정 팝업
-        btn_setting = findViewById(R.id.setting);
+        ImageView btn_setting = findViewById(R.id.setting);
         btn_setting.setOnClickListener(v -> {
             Intent intent = new Intent(getApplicationContext(), AddressActivity.class);
             startActivity(intent);
