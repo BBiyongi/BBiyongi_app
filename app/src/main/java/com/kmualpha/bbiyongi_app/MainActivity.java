@@ -23,18 +23,12 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FileDownloadTask;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
-import com.google.firebase.storage.StorageReference;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.kmualpha.bbiyongi_app.notifications.ArrestActivity;
 import com.kmualpha.bbiyongi_app.notifications.AttackActivity;
 import com.kmualpha.bbiyongi_app.notifications.Notification;
 
-import java.io.File;
-import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -49,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
                2. 프리퍼런스에서 불러올 폭행 및 심정지 알림 목록
                   각 알림의 날짜를 따로 ArrayList로 관리하여 데이터 중복을 방지함
      */
-    public static String[] permissionList = new String[] {Manifest.permission.SEND_SMS};
+    public static String[] permissionList = new String[] {Manifest.permission.SEND_SMS, Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
     ArrayList<Notification> attackList = new ArrayList<>();
     ArrayList<Notification> arrestList = new ArrayList<>();
@@ -178,15 +172,6 @@ public class MainActivity extends AppCompatActivity {
                 System.out.println("The read failed: " + error.getCode());
             }
         });
-
-        FirebaseStorage storage = FirebaseStorage.getInstance("gs://alpha-92011.appspot.com/");
-        Log.e("test", "storage");
-        // 생성된 FirebaseStorage를 참조하는 storage 생성
-        StorageReference storageRef = storage.getReference();
-        Log.e("test", "storageRef");
-        // Storage 내부의 images 폴더 안의 image.jpg 파일명을 가리키는 참조 생성
-        // StorageReference pathReference = storageRef.child("avideo.mp4");
-        Log.e("test", "pathReference");
 
         /*
         액티비티 화면 전환
