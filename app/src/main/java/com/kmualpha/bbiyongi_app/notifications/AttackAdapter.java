@@ -53,18 +53,15 @@ public class AttackAdapter extends BaseAdapter {
         LinearLayout notification = (LinearLayout)view.findViewById(R.id.notification);
         TextView btn_save = (TextView)view.findViewById(R.id.btn_go_save);
 
-        Date date = notifications.get(i).getDate();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd(E) HH:mm:ss");
-        img_thumbnail.setImageResource(notifications.get(i).getImg_url());
-        String date_str = simpleDateFormat.format(date);
-        record_date.setText("녹화 일시\n" + date_str);
+        String date = notifications.get(i).getDate();
+        record_date.setText("녹화 일시\n" + date);
 
         boolean isChecked = notifications.get(i).getChecked();
         if (!isChecked) {
             notification.setBackgroundColor(Color.parseColor("#33FFA000"));
         }
         btn_save.setOnClickListener(v1 -> {
-            Toast.makeText(mContext.getApplicationContext(), date_str, Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext.getApplicationContext(), date, Toast.LENGTH_SHORT).show();
         });
 
         return view;

@@ -40,16 +40,12 @@ public class SaveActivity extends AppCompatActivity {
         // 알림 intent 받아와서 화면에 출력
         Intent intent = getIntent();
         notification = (Notification) intent.getSerializableExtra("notification");
-        Date date = notification.getDate();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy년 MM월 dd일 HH시 mm분 ss초");
-        String dateString = dateFormat.format(date);
-        String type = notification.getType();
         record_date = findViewById(R.id.record_date);
-        record_date.setText("녹화 일시 " + dateString);
+        record_date.setText("녹화 일시 " + notification.getDate());
 
         // 심정지 알림일 때만 AED 위치 표시
         TextView aed = findViewById(R.id.aed);
-        if (Objects.equals(type, "arrest")) {
+        if (Objects.equals(notification.getType(), "arrest")) {
             aed.setText("가장 가까운 자동 제세동기는 " + notification.getPos() + "에 있습니다");
         } else {
             aed.setVisibility(View.GONE);
@@ -69,10 +65,10 @@ public class SaveActivity extends AppCompatActivity {
 
         // 간편 신고 메시지 프리퍼런스 불러오기
         String message = preferences.getString("messageForm", getString(R.string.msg_default));
-        String msg = message.replace(getString(R.string.msg_date), dateString)
+        String msg = message.replace(getString(R.string.msg_date), notification.getDate())
                 .replace(getString(R.string.msg_link), notification.getLink())
                 .replace(getString(R.string.msg_pos), notification.getPos())
-                .replace(getString(R.string.msg_type), Objects.equals(type, "arrest") ?"심정지가":"폭행이");
+                .replace(getString(R.string.msg_type), Objects.equals(notification.getType(), "arrest") ?"심정지가":"폭행이");
         msg_box.setText(msg);
 
         // 문자메시지로 신고하기
@@ -97,7 +93,7 @@ public class SaveActivity extends AppCompatActivity {
         super.onResume();
         // 간편 신고 메시지 프리퍼런스 불러오기
         String message = preferences.getString("messageForm", getString(R.string.msg_default));
-        String msg = message.replace(getString(R.string.msg_date), new SimpleDateFormat("yyyy년 MM월 dd일 HH시 mm분 ss초").format(notification.getDate()))
+        String msg = message.replace(getString(R.string.msg_date), notification.getDate())
                 .replace(getString(R.string.msg_link), notification.getLink())
                 .replace(getString(R.string.msg_pos), notification.getPos())
                 .replace(getString(R.string.msg_type), Objects.equals(notification.getType(), "arrest") ?"심정지가":"폭행이");

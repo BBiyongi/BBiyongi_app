@@ -81,8 +81,8 @@ public class AttackActivity extends AppCompatActivity {
         Collections.sort(notificationArrayList, new Comparator<Notification>() {
             @Override
             public int compare(Notification n1, Notification n2) {
-                Date date1 = n1.getDate();
-                Date date2 = n2.getDate();
+                String date1 = n1.getDate();
+                String date2 = n2.getDate();
                 return date1.compareTo(date2);
             }
         });

@@ -26,7 +26,6 @@ public class PopupActivity extends Activity {
     TextView btn_get_link;
     SharedPreferences preferences;
     Notification notification;
-    String dateString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,18 +38,14 @@ public class PopupActivity extends Activity {
         // 알림 intent 받아오기
         Intent intent = getIntent();
         notification = (Notification) intent.getSerializableExtra("notification");
-        Date date = notification.getDate();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy년 MM월 dd일 HH시 mm분 ss초");
-        dateString = dateFormat.format(date);
-        String type = notification.getType();
 
         // 간편 신고 메시지 form 불러오기
         edit_msg = findViewById(R.id.edit_msg);
         String messageForm = preferences.getString("messageForm", getString(R.string.msg_default));
-        String msg = messageForm.replace(getString(R.string.msg_date), dateString)
+        String msg = messageForm.replace(getString(R.string.msg_date), notification.getDate())
                 .replace(getString(R.string.msg_link), notification.getLink())
                 .replace(getString(R.string.msg_pos), notification.getPos())
-                .replace(getString(R.string.msg_type), Objects.equals(type, "arrest") ?"심정지가":"폭행이");
+                .replace(getString(R.string.msg_type), Objects.equals(notification.getType(), "arrest") ?"심정지가":"폭행이");
         edit_msg.setText(msg);
 
         // 신고 메시지 필수 요소 간편 입력
@@ -69,7 +64,7 @@ public class PopupActivity extends Activity {
             StringBuffer sb = new StringBuffer();
             int cursor = edit_msg.getSelectionStart();
             sb.append(edit_msg.getText().toString());
-            sb.insert(cursor, dateString);
+            sb.insert(cursor, notification.getDate());
             edit_msg.setText(sb.toString());
         });
         // 3. 동영상 링크 입력
@@ -87,7 +82,7 @@ public class PopupActivity extends Activity {
             String sb = edit_msg.getText().toString();
             // 필수 요소를 모두 포함하였을 때 저장
             if (sb.contains(notification.getPos())
-                    && sb.contains(dateString)
+                    && sb.contains(notification.getDate())
                     && sb.contains(notification.getLink())) {
                 setting(sb);
                 finish();
@@ -102,7 +97,7 @@ public class PopupActivity extends Activity {
     private void setting(String msg) {
         Toast.makeText(getApplicationContext(), "저장되었습니다.", Toast.LENGTH_SHORT).show();
         // 신고 메시지 형태 프리퍼런스 저장
-        String messageForm = msg.replace(dateString, getString(R.string.msg_date))
+        String messageForm = msg.replace(notification.getDate(), getString(R.string.msg_date))
                 .replace(notification.getPos(), getString(R.string.msg_pos))
                 .replace(notification.getLink(), getString(R.string.msg_link))
                 .replace("심정지가", getString(R.string.msg_type))
