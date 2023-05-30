@@ -46,7 +46,7 @@ public class SaveActivity extends AppCompatActivity {
         // 심정지 알림일 때만 AED 위치 표시
         TextView aed = findViewById(R.id.aed);
         if (Objects.equals(notification.getType(), "arrest")) {
-            aed.setText("가장 가까운 자동 제세동기는 " + notification.getPos() + "에 있습니다");
+            aed.setText("가장 가까운 자동 제세동기는 " + notification.getAed() + "에 있습니다");
         } else {
             aed.setVisibility(View.GONE);
         }

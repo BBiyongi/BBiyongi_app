@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
                     // detect가 assault(1)일 경우
                     if (temp_map.get("detect").equals("1")) {
                         // preference로 map 넘겨주기
-                        Notification data = new Notification("attack", R.drawable.siren, temp_map.get("time"), temp_map.get("address"), "www.helloworld", "cam_id", false);
+                        Notification data = new Notification("attack", R.drawable.siren, temp_map.get("time"), temp_map.get("address"), "www.helloworld", "cam_id", false, "");
                         if (!attackDate.contains(temp_map.get("time"))) {
                             attackList.add(data);
                         }
@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
                     // detect가 cardiac arrest(2)일 경우
                     else if (temp_map.get("detect").equals("2")) {
                         // preference로 map 넘겨주기
-                        Notification data = new Notification("arrest", R.drawable.siren, temp_map.get("time"), temp_map.get("address"), "www.hi", "cam_id", false);
+                        Notification data = new Notification("arrest", R.drawable.siren, temp_map.get("time"), temp_map.get("address"), "www.hi", "cam_id", false, "AED");
                         // 불러온 알림이 이미 프리퍼런스에 저장되어 있는 알림이면 list에 추가하지 않는다
                         if (!arrestDate.contains(temp_map.get("time"))) {
                             arrestList.add(data);
