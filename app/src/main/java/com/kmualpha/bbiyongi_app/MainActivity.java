@@ -79,8 +79,66 @@ public class MainActivity extends AppCompatActivity {
             // firebase 데이터 받기
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                Log.e("test", "test");
                 Log.d("test", "current top Key: " + snapshot.getKey());  // 테스트용 - 최상위 key(발생 시기) 조회
+
+                // 하위 key & value 가져오기
+                for (DataSnapshot childSnapshot : snapshot.getChildren()) {
+                    String childKey = childSnapshot.getKey();
+                    String childValue = childSnapshot.getValue(String.class);
+                    temp_map.put(childKey, childValue);
+
+                    // detect가 assault(1)이나 cardiac arrest(2)가 아닌 경우
+                    if ((childKey.equals("detect")) && (!(childValue.equals("1")) && !(childValue.equals("2")))) {
+                        temp_map.clear();  // 초기화
+                        break;
+                    }
+                }
+
+                if (!temp_map.isEmpty() && temp_map.get("detect") != null) {
+                    Log.e("test", temp_map.toString());
+                    // detect가 assault(1)일 경우
+                    if (Objects.equals(temp_map.get("detect"), "1")) {
+                        Log.e("test", temp_map.get("time"));
+                        // preference로 map 넘겨주기
+                        Notification data = new Notification("attack", R.drawable.siren, temp_map.get("time"), temp_map.get("address"), temp_map.get("fileUrl"), "cam_id", false, "");
+                        if (!attackDate.contains(temp_map.get("time"))) {
+                            attackList.add(data);
+                            attackDate.add(temp_map.get("time"));
+                        }
+                        Log.d("test", "assault_list: " + attackList);
+                        temp_map.clear();  // 초기화
+                    }
+                    // detect가 cardiac arrest(2)일 경우
+                    else if (Objects.equals(temp_map.get("detect"), "2")) {
+                        Log.e("test1", temp_map.toString());
+                        // preference로 map 넘겨주기
+                        Notification data = new Notification("arrest", R.drawable.siren, temp_map.get("time"), temp_map.get("address"), temp_map.get("fileUrl"), "cam_id", false, temp_map.get("AED"));
+                        // 불러온 알림이 이미 프리퍼런스에 저장되어 있는 알림이면 list에 추가하지 않는다
+                        Log.e("testtesttest", data.getDate());
+                        if (!arrestDate.contains(temp_map.get("time"))) {
+                            arrestList.add(data);
+                            arrestDate.add(temp_map.get("time"));
+                        }
+                        Log.d("test", "assault_list: " + arrestList);
+                        temp_map.clear();  // 초기화
+                    }
+                }
+
+                // ArrayList를 JSON 형태로 변환하여 저장
+                Gson gson = new Gson();
+                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                SharedPreferences.Editor editor = preferences.edit();
+                String attackJson = gson.toJson(attackList);
+                editor.putString("attackList", attackJson);
+                String arrestJson = gson.toJson(arrestList);
+                editor.putString("arrestList", arrestJson);
+                editor.apply();
+            }
+
+            // 자식 노드의 데이터가 변경되었을 때 호출: 변경된 자식 노드의 데이터 스냅샷과 이전 자식의 이름이 전달된다
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                Log.d("test OnChild", "current top Key: " + snapshot.getKey());  // 테스트용 - 최상위 key(발생 시기) 조회
 
                 // 하위 key & value 가져오기
                 for (DataSnapshot childSnapshot : snapshot.getChildren()) {
@@ -135,17 +193,6 @@ public class MainActivity extends AppCompatActivity {
                 editor.apply();
             }
 
-            // 자식 노드의 데이터가 변경되었을 때 호출: 변경된 자식 노드의 데이터 스냅샷과 이전 자식의 이름이 전달된다
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                String value = snapshot.getValue(String.class);
-                if (value != null) {
-                    Log.d("MainActivity", String.valueOf(value));
-                } else {
-                    // 값이 null인 경우 처리
-                }
-            }
-
             // 자식 노드가 삭제되었을 때 호출: 삭제된 자식 노드의 데이터 스냅샷이 전달된다
             @Override
             public void onChildRemoved(@NonNull DataSnapshot snapshot) {}
@@ -188,6 +235,7 @@ public class MainActivity extends AppCompatActivity {
          */
         TextView btn_arrest = findViewById(R.id.btn_arrest);
         btn_arrest.setOnClickListener(v -> {
+            Log.e("btn arrest", String.valueOf(arrestList.size()));
             Intent intent = new Intent(this, ArrestActivity.class);
             intent.putExtra("arrestList", arrestList);
             startActivity(intent);
