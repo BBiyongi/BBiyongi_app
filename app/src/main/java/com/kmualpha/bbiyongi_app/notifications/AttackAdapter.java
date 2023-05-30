@@ -53,6 +53,8 @@ public class AttackAdapter extends BaseAdapter {
         LinearLayout notification = (LinearLayout)view.findViewById(R.id.notification);
         TextView btn_save = (TextView)view.findViewById(R.id.btn_go_save);
 
+        img_thumbnail.setImageResource(notifications.get(i).getImg_url());
+
         String date = notifications.get(i).getStringDate();
         record_date.setText("녹화 일시\n" + date);
 
