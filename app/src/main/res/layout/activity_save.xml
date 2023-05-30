@@ -49,6 +49,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="10dp"
+            android:textSize="20sp"
             android:textColor="#212121"/>
         <TextView
             android:id="@+id/btn_police"
