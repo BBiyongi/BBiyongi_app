@@ -35,7 +35,11 @@ import com.kmualpha.bbiyongi_app.notifications.Notification;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -298,9 +302,20 @@ public class MainActivity extends AppCompatActivity {
             attackList = gson.fromJson(json, new TypeToken<ArrayList<Notification>>() {
             }.getType());
             Log.e("array preference", "프리퍼런스에서 불러온 폭행 목록"+attackList.toString());
+            int del = -1;
             for (Notification notification : attackList) {
                 String date = notification.getDate();
+                if (isDateThirtyDaysAgo(date)) { // 30일 지난 알림이면 arrayList, 프리퍼런스에서 제거
+                    Log.e("test", "30일 지난 알림");
+                    del = attackList.indexOf(notification);
+                    attackList.remove(notification);
+                    continue;
+                }
                 attackDate.add(date);
+                Log.e("attackDate", date);
+            }
+            if (del > 0) {
+                attackList.remove(del);
             }
         }
         if (preferences.contains("arrestList")) {
@@ -308,11 +323,52 @@ public class MainActivity extends AppCompatActivity {
             arrestList = gson.fromJson(json, new TypeToken<ArrayList<Notification>>() {
             }.getType());
             Log.e("array preference", "프리퍼런스에서 불러온 심정지 목록"+arrestList.toString());
+            int del = -1;
             for (Notification notification : arrestList) {
                 String date = notification.getDate();
+                if (isDateThirtyDaysAgo(date)) { // 30일 지난 알림이면 arrayList, 프리퍼런스에서 제거
+                    Log.e("test", "30일 지난 알림");
+                    del = arrestList.indexOf(notification);
+                    continue;
+                }
                 arrestDate.add(date);
                 Log.e("arrestDate", date);
             }
+            if (del > 0) {
+                arrestList.remove(del);
+            }
         }
+        // ArrayList를 JSON 형태로 변환하여 저장
+
+        SharedPreferences.Editor editor = preferences.edit();
+        String attackJson = gson.toJson(attackList);
+        editor.putString("attackList", attackJson);
+        String arrestJson = gson.toJson(arrestList);
+        editor.putString("arrestList", arrestJson);
+        editor.apply();
+    }
+
+    /*
+    현재로부터 30일 지난 날짜의 데이터는 true 반환
+     */
+    public static boolean isDateThirtyDaysAgo(String dateString) {
+        Calendar currentCalendar = Calendar.getInstance(); // 현재 날짜 가져오기
+        Date currentDate = currentCalendar.getTime();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyMMdd_HHmm");
+        Date inputDate;
+        try {
+            inputDate = sdf.parse(dateString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        // 입력된 날짜의 30일 후 계산
+        Calendar inputCalendar = Calendar.getInstance();
+        inputCalendar.setTime(inputDate);
+        inputCalendar.add(Calendar.DAY_OF_MONTH, 30);
+        Date thirtyDaysAfter = inputCalendar.getTime();
+
+        return currentDate.after(thirtyDaysAfter);
     }
 }
