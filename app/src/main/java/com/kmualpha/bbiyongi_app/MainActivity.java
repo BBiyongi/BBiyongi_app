@@ -52,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
     ImageView btn_setting;
     ArrayList<Notification> attackList = new ArrayList<>(); // 프리퍼런스에서 불러올 폭행 알림 목록
     ArrayList<Notification> arrestList = new ArrayList<>(); // 프리퍼런스에서 불러올 심정지 알림 목록
+    ArrayList<String> attackDate = new ArrayList<>(); // 프리퍼런스에서 불러올 폭행 알림 날짜
+    ArrayList<String> arrestDate = new ArrayList<>(); // 프리퍼런스에서 불러올 심정지 알림 날짜
 
 
     // firebase에 저장된 컬렉션 map
@@ -78,17 +80,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 Log.e("test", "test");
-//                String value = snapshot.getValue(String.class);
-//                Log.d("MainActivity", String.valueOf(value));
-                Log.e("test", "entering onChildAdded for test");  // 테스트용
-                Log.d("test", "current top Key: " + String.valueOf(snapshot.getKey()));  // 테스트용 - 최상위 key(발생 시기) 조회
+                Log.d("test", "current top Key: " + snapshot.getKey());  // 테스트용 - 최상위 key(발생 시기) 조회
 
                 // 하위 key & value 가져오기
                 for (DataSnapshot childSnapshot : snapshot.getChildren()) {
                     String childKey = childSnapshot.getKey();
                     String childValue = childSnapshot.getValue(String.class);
-                    Log.d("test", "Child Key: " + childKey + ", Child Value: " + childValue);
-
                     temp_map.put(childKey, childValue);
 
                     // detect가 assault(1)이나 cardiac arrest(2)가 아닌 경우
@@ -97,29 +94,40 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     }
                 }
-                Log.d("test", "temp_map: " + String.valueOf(temp_map));
 
                 if (!temp_map.isEmpty()) {
                     // detect가 assault(1)일 경우
                     if (temp_map.get("detect").equals("1")) {
                         // preference로 map 넘겨주기
-                        Notification data = new Notification(temp_map.get("detect"), R.drawable.siren, Date.valueOf("2010-10-10"), temp_map.get("address"), "", "cam_id", false);
-                        attackList.add(data);
-                        Log.d("test", "assault_list: " + String.valueOf(attackList.toString()));
-
+                        Notification data = new Notification("attack", R.drawable.siren, temp_map.get("time"), temp_map.get("address"), "www.helloworld", "cam_id", false);
+                        if (!attackDate.contains(temp_map.get("time"))) {
+                            attackList.add(data);
+                        }
+                        Log.d("test", "assault_list: " + attackList);
                         temp_map.clear();  // 초기화
                     }
                     // detect가 cardiac arrest(2)일 경우
                     else if (temp_map.get("detect").equals("2")) {
                         // preference로 map 넘겨주기
-                        Notification data = new Notification(temp_map.get("detect"), R.drawable.siren, Date.valueOf("2010-10-10"), temp_map.get("address"), "", "cam_id", false);
-                        arrestList.add(data);
-                        Log.d("test", "assault_list: " + String.valueOf(arrestList));
-
+                        Notification data = new Notification("arrest", R.drawable.siren, temp_map.get("time"), temp_map.get("address"), "www.hi", "cam_id", false);
+                        // 불러온 알림이 이미 프리퍼런스에 저장되어 있는 알림이면 list에 추가하지 않는다
+                        if (!arrestDate.contains(temp_map.get("time"))) {
+                            arrestList.add(data);
+                        }
+                        Log.d("test", "assault_list: " + arrestList);
                         temp_map.clear();  // 초기화
                     }
-                    Log.d("test", "clear temp_map: " + String.valueOf(temp_map));
                 }
+
+                // ArrayList를 JSON 형태로 변환하여 저장
+                Gson gson = new Gson();
+                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                SharedPreferences.Editor editor = preferences.edit();
+                String attackJson = gson.toJson(attackList);
+                editor.putString("attackList", attackJson);
+                String arrestJson = gson.toJson(arrestList);
+                editor.putString("arrestList", arrestJson);
+                editor.apply();
             }
 
             // 자식 노드의 데이터가 변경되었을 때 호출: 변경된 자식 노드의 데이터 스냅샷과 이전 자식의 이름이 전달된다
@@ -183,6 +191,12 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getNotifications();
+    }
+
     private void checkPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             for (String permission : permissionList) {
@@ -206,26 +220,22 @@ public class MainActivity extends AppCompatActivity {
             String json = preferences.getString("attackList", "");
             attackList = gson.fromJson(json, new TypeToken<ArrayList<Notification>>() {
             }.getType());
-        } else { // 프리퍼런스에 저장되어 있는 notification이 하나도 없을 때
-            Notification attnoti1 = new Notification("attack", R.drawable.siren, Date.valueOf("2010-10-10"), "성북구 정릉동", "www.xxx", "CAM01", false);
-            Notification attnoti2 = new Notification("attack", R.drawable.siren, Date.valueOf("2001-12-30"), "강북구 미아동", "www.xxx", "CAM01", false);
-            Notification attnoti3 = new Notification("attack", R.drawable.siren, Date.valueOf("2023-05-11"), "관악구 신림동", "www.xxx", "CAM01", true);
-            attackList.add(attnoti1);
-            attackList.add(attnoti2);
-            attackList.add(attnoti3);
+            Log.e("array preference", "프리퍼런스에서 불러온 폭행 목록"+attackList.toString());
+            for (Notification notification : attackList) {
+                String date = notification.getDate();
+                attackDate.add(date);
+            }
         }
         // 2. arrestList 불러오기
         if (preferences.contains("arrestList")) { // 프리퍼런스에 저장되어 있는 심정지 목록 불러오기
             String json = preferences.getString("arrestList", "");
             arrestList = gson.fromJson(json, new TypeToken<ArrayList<Notification>>() {
             }.getType());
-        } else {
-            Notification arrnoti1 = new Notification("arrest", R.drawable.siren, Date.valueOf("2000-09-02"), "검단구 아라동", "www.xxx", "CAM01", false);
-            Notification arrnoti2 = new Notification("arrest", R.drawable.siren, Date.valueOf("2005-02-01"), "마포구 동교동", "www.xxx", "CAM01", true);
-            Notification arrnoti3 = new Notification("arrest", R.drawable.siren, Date.valueOf("2003-05-25"), "서대문구 연희동", "www.xxx", "CAM01", true);
-            arrestList.add(arrnoti1);
-            arrestList.add(arrnoti2);
-            arrestList.add(arrnoti3);
+            Log.e("array preference", "프리퍼런스에서 불러온 심정지 목록"+arrestList.toString());
+            for (Notification notification : arrestList) {
+                String date = notification.getDate();
+                arrestDate.add(date);
+            }
         }
     }
 }

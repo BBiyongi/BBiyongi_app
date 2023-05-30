@@ -1,21 +1,22 @@
 package com.kmualpha.bbiyongi_app.notifications;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceManager;
 
+import com.google.gson.Gson;
 import com.kmualpha.bbiyongi_app.R;
 import com.kmualpha.bbiyongi_app.SaveActivity;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 
 public class ArrestActivity extends AppCompatActivity {
 
@@ -57,6 +58,13 @@ public class ArrestActivity extends AppCompatActivity {
                 Notification noti = notificationArrayList.get(position);
                 noti.checked = true;
                 notificationArrayList.set(position, noti);
+                // 프리퍼런스에 반영
+                Gson gson = new Gson();
+                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                SharedPreferences.Editor editor = preferences.edit();
+                String arrestJson = gson.toJson(notificationArrayList);
+                editor.putString("arrestList", arrestJson);
+                editor.apply();
             }
             startActivity(intent);
         });
@@ -66,6 +74,11 @@ public class ArrestActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         // 알림 클릭 후 다시 목록 화면으로 돌아오면 checked 여부 갱신된 list로 설정
+        try {
+            this.InitializeData();
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
         final ArrestAdapter myAdapter = new ArrestAdapter(this, notificationArrayList);
         list_view.setAdapter(myAdapter);
     }
@@ -80,8 +93,8 @@ public class ArrestActivity extends AppCompatActivity {
         Collections.sort(notificationArrayList, new Comparator<Notification>() {
             @Override
             public int compare(Notification n1, Notification n2) {
-                Date date1 = n1.getDate();
-                Date date2 = n2.getDate();
+                String date1 = n1.getDate();
+                String date2 = n2.getDate();
                 return date1.compareTo(date2);
             }
         });
