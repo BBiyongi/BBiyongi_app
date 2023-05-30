@@ -32,7 +32,6 @@
             android:id="@+id/video"
             android:layout_width="350dp"
             android:layout_height="350dp"
-            android:background="#767F88"
             android:layout_gravity="center" />
         <TextView
             android:id="@+id/record_date"
@@ -49,6 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="10dp"
+            android:textSize="20sp"
             android:textColor="#212121"/>
         <TextView
             android:id="@+id/btn_police"
@@ -91,7 +91,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="신고하기 버튼을 누르면 녹화된 동영상과 위치정보를 112에 전송합니다."
+            android:text="신고하기 버튼을 누르면 녹화된 동영상과 위치정보를 112, 119에 전송합니다."
             android:textSize="12sp"
             android:textColor="#BDBDBD"/>
 

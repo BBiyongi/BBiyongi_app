@@ -1,4 +1,5 @@
 <resources>
+    <string name="channel_id">my_notification_channel</string>
     <string name="app_name">BBiyongi_app</string>
     <string name="msg_default">[OOOO년 OO월 OO일 OO시 OO분 OO초]\n[OO시 OO구 OO로 OO]에서\n[type] 감지되었습니다.\n출동 부탁드립니다.\n녹화된 동영상: [www.OOO.OOO]</string>
     <string name="msg_type">[type]</string>

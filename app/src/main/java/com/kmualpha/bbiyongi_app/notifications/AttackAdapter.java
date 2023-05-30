@@ -2,6 +2,8 @@ package com.kmualpha.bbiyongi_app.notifications;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Environment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,11 +13,17 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.kmualpha.bbiyongi_app.R;
 
-import java.text.SimpleDateFormat;
+import java.io.File;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class AttackAdapter extends BaseAdapter {
 
@@ -63,6 +71,29 @@ public class AttackAdapter extends BaseAdapter {
             notification.setBackgroundColor(Color.parseColor("#33FFA000"));
         }
         btn_save.setOnClickListener(v1 -> {
+            FirebaseStorage storage = FirebaseStorage.getInstance();
+            String videoPath = "gs://alpha-92011.appspot.com/" + notifications.get(i).getDate() + ".mp4";
+
+            String localFilePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + notifications.get(i).getDate() + ".mp4";
+
+            StorageReference storageRef = storage.getReferenceFromUrl(videoPath);
+
+            File localFile = new File(localFilePath);
+
+            storageRef.getFile(localFile)
+                    .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                            Log.d("Download", "다운로드 완료");
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.e("Download", "다운로드 실패: " + e.getMessage());
+                        }
+                    });
+
             Toast.makeText(mContext.getApplicationContext(), date, Toast.LENGTH_SHORT).show();
         });
 

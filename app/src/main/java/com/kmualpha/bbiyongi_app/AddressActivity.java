@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 import androidx.preference.PreferenceManager;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.reflect.TypeToken;
 import com.kmualpha.bbiyongi_app.notifications.Notification;
 
@@ -21,6 +23,7 @@ import java.util.regex.Pattern;
 public class AddressActivity extends Activity {
 
     EditText edit_address;
+    EditText edit_camera;
     TextView btn_set_return;
     Switch toggle112;
     boolean contain112;
@@ -34,6 +37,9 @@ public class AddressActivity extends Activity {
 
         edit_address = findViewById(R.id.edit_address);
         edit_address.setText(preferences.getString("emergency", ""));
+
+        edit_camera = findViewById(R.id.edit_camera);
+        edit_camera.setText(preferences.getString("camera", ""));
 
         toggle112 = findViewById(R.id.toggle112);
         toggle112.setChecked(Boolean.parseBoolean(preferences.getString("contain112", "false")));
@@ -58,6 +64,8 @@ public class AddressActivity extends Activity {
                 // 1-2 입력한 전화번호가 있는데 정상적이라면
                 else {
                     editor.putString("emergency", address); // 비상연락망 저장
+                    editor.putString("camera", edit_camera.getText().toString());
+                    saveCamera(edit_camera.getText().toString());
                     editor.putString("contain112", contain112?"true":"false");
                     editor.apply(); // 변경사항 저장
                     Toast.makeText(getApplicationContext(), "저장되었습니다", Toast.LENGTH_SHORT).show();
@@ -65,6 +73,8 @@ public class AddressActivity extends Activity {
             }
             // 2. 입력한 전화번호가 없다면
             else {
+                editor.putString("camera", edit_camera.getText().toString());
+                saveCamera(edit_camera.getText().toString());
                 editor.putString("contain112", contain112?"true":"false"); // toggle switch 저장
                 editor.apply(); // toggle switch만 저장
                 Toast.makeText(getApplicationContext(), "저장되었습니다", Toast.LENGTH_SHORT).show();
@@ -72,5 +82,12 @@ public class AddressActivity extends Activity {
             }
 
         });
+    }
+    public void saveCamera(String camera) {
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance("https://alpha-92011-default-rtdb.firebaseio.com");
+        DatabaseReference databaseReference = firebaseDatabase.getReference();
+
+        databaseReference.child("cam1_address").setValue(camera);
+
     }
 }

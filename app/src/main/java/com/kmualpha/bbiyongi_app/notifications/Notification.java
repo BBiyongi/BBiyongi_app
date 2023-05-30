@@ -37,8 +37,7 @@ public class Notification implements Serializable {
         String day = date.substring(6, 8);
         String hour = date.substring(9, 11);
         String minute = date.substring(11, 13);
-        String second = date.substring(13, 15);
-        return String.format("%s년 %s월 %s일 %s:%s:%s", year, month, day, hour, minute, second);
+        return String.format("%s년 %s월 %s일 %s:%s", year, month, day, hour, minute);
     }
     public String getPos() { return this.pos; }
     public String getLink() { return this.link; }

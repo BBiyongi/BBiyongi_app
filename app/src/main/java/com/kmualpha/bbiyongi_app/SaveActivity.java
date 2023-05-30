@@ -2,10 +2,14 @@ package com.kmualpha.bbiyongi_app;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.telephony.SmsManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -40,6 +44,28 @@ public class SaveActivity extends AppCompatActivity {
         // 알림 intent 받아와서 화면에 출력
         Intent intent = getIntent();
         notification = (Notification) intent.getSerializableExtra("notification");
+        Log.d("push", notification.toString());
+
+        video = findViewById(R.id.video);
+        // 동영상 로드
+        //Video Uri
+        Uri videoUri= Uri.parse(notification.getLink());
+
+        //비디오뷰의 재생, 일시정지 등을 할 수 있는 '컨트롤바'를 붙여주는 작업
+        video.setMediaController(new MediaController(this));
+
+        //VideoView가 보여줄 동영상의 경로 주소(Uri) 설정하기
+        video.setVideoURI(videoUri);
+
+        //동영상을 읽어오는데 시간이 걸리므로 비디오 로딩 준비가 끝났을 때 실행함
+        video.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mediaPlayer) {
+                //비디오 시작
+                video.start();
+            }
+        });
+
         record_date = findViewById(R.id.record_date);
         record_date.setText("녹화 일시 " + notification.getStringDate());
 
@@ -81,9 +107,14 @@ public class SaveActivity extends AppCompatActivity {
                 ArrayList<String> parts = smsManager.divideMessage(sms); // 메시지 분할
                 smsManager.sendMultipartTextMessage(address, null, parts, null, null);
                 Toast.makeText(getApplicationContext(), "전송을 완료하였습니다.", Toast.LENGTH_SHORT).show();
-//                비상연락망에 112가 포함되어있으면 112로 문자메시지 신고
+//                비상연락망에 112 또는 119가 포함되어있으면 112, 119로 문자메시지 신고
 //                if (preferences.getBoolean("contain112", false)) {
-//                    smsManager.sendMultipartTextMessage("112", null, parts, null, null);
+//                    if (Objects.equals(notification.getType(), "attack")) {
+//                        smsManager.sendMultipartTextMessage("112", null, parts, null, null);
+//                    }
+//                    else {
+//                        smsManager.sendMultipartTextMessage("119", null, parts, null, null);
+//                    }
 //                }
             }
             catch (Exception e) {
@@ -103,5 +134,16 @@ public class SaveActivity extends AppCompatActivity {
                 .replace(getString(R.string.msg_pos), notification.getPos())
                 .replace(getString(R.string.msg_type), Objects.equals(notification.getType(), "arrest") ?"심정지가":"폭행이");
         msg_box.setText(msg);
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(video!=null && video.isPlaying()) video.pause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(video!=null) video.stopPlayback();
     }
 }
