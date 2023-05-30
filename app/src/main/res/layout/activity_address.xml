@@ -62,7 +62,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="비상연락망에 112 포함하기"
+                android:text="비상연락망에 112, 119 포함하기"
                 android:textSize="15sp"
                 android:textColor="#212121"/>
             <View

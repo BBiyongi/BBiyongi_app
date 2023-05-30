@@ -81,9 +81,14 @@ public class SaveActivity extends AppCompatActivity {
                 ArrayList<String> parts = smsManager.divideMessage(sms); // 메시지 분할
                 smsManager.sendMultipartTextMessage(address, null, parts, null, null);
                 Toast.makeText(getApplicationContext(), "전송을 완료하였습니다.", Toast.LENGTH_SHORT).show();
-//                비상연락망에 112가 포함되어있으면 112로 문자메시지 신고
+//                비상연락망에 112 또는 119가 포함되어있으면 112, 119로 문자메시지 신고
 //                if (preferences.getBoolean("contain112", false)) {
-//                    smsManager.sendMultipartTextMessage("112", null, parts, null, null);
+//                    if (Objects.equals(notification.getType(), "attack")) {
+//                        smsManager.sendMultipartTextMessage("112", null, parts, null, null);
+//                    }
+//                    else {
+//                        smsManager.sendMultipartTextMessage("119", null, parts, null, null);
+//                    }
 //                }
             }
             catch (Exception e) {
