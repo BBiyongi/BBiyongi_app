@@ -53,6 +53,33 @@
                 android:layout_height="1dp"
                 android:background="#BDBDBD"/>
         </LinearLayout>
+<!--    카메라 위치-->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="카메라 위치"
+                android:textSize="15sp"
+                android:textColor="#212121"/>
+            <EditText
+                android:id="@+id/edit_camera"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:hint="도로명 주소로 입력해주세요"
+                android:textColorHint="#55000000"
+                android:textSize="15sp"
+                android:textColor="#212121"
+                android:background="@android:color/transparent"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#BDBDBD"/>
+        </LinearLayout>
 <!--    토글-->
         <LinearLayout
             android:layout_width="match_parent"
