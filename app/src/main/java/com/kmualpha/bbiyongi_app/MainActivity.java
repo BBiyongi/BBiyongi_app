@@ -37,6 +37,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -94,11 +95,14 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
 
-                if (!temp_map.isEmpty()) {
+                Log.e("test1", temp_map.toString());
+                if (!temp_map.isEmpty() && temp_map.get("detect") != null) {
+                    Log.e("test1", temp_map.toString());
                     // detect가 assault(1)일 경우
-                    if (temp_map.get("detect").equals("1")) {
+                    if (Objects.equals(temp_map.get("detect"), "1")) {
+                        Log.e("test1", temp_map.get("time"));
                         // preference로 map 넘겨주기
-                        Notification data = new Notification("attack", R.drawable.siren, temp_map.get("time"), temp_map.get("address"), "www.helloworld", "cam_id", false, "");
+                        Notification data = new Notification("attack", R.drawable.siren, temp_map.get("time"), temp_map.get("address"), temp_map.get("fileUrl"), "cam_id", false, "");
                         if (!attackDate.contains(temp_map.get("time"))) {
                             attackList.add(data);
                         }
@@ -106,10 +110,12 @@ public class MainActivity extends AppCompatActivity {
                         temp_map.clear();  // 초기화
                     }
                     // detect가 cardiac arrest(2)일 경우
-                    else if (temp_map.get("detect").equals("2")) {
+                    else if (Objects.equals(temp_map.get("detect"), "2")) {
+                        Log.e("test1", temp_map.toString());
                         // preference로 map 넘겨주기
-                        Notification data = new Notification("arrest", R.drawable.siren, temp_map.get("time"), temp_map.get("address"), "www.hi", "cam_id", false, "AED");
+                        Notification data = new Notification("arrest", R.drawable.siren, temp_map.get("time"), temp_map.get("address"), temp_map.get("fileUrl"), "cam_id", false, temp_map.get("AED"));
                         // 불러온 알림이 이미 프리퍼런스에 저장되어 있는 알림이면 list에 추가하지 않는다
+                        Log.e("testtesttest", data.getDate());
                         if (!arrestDate.contains(temp_map.get("time"))) {
                             arrestList.add(data);
                         }
@@ -132,8 +138,12 @@ public class MainActivity extends AppCompatActivity {
             // 자식 노드의 데이터가 변경되었을 때 호출: 변경된 자식 노드의 데이터 스냅샷과 이전 자식의 이름이 전달된다
             @Override
             public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                String value = snapshot.getValue(String.class); // 변경된 값
-                Log.d("MainActivity", String.valueOf(value)); // test code
+                String value = snapshot.getValue(String.class);
+                if (value != null) {
+                    Log.d("MainActivity", String.valueOf(value));
+                } else {
+                    // 값이 null인 경우 처리
+                }
             }
 
             // 자식 노드가 삭제되었을 때 호출: 삭제된 자식 노드의 데이터 스냅샷이 전달된다
@@ -253,6 +263,7 @@ public class MainActivity extends AppCompatActivity {
             for (Notification notification : arrestList) {
                 String date = notification.getDate();
                 arrestDate.add(date);
+                Log.e("arrestDate", date);
             }
         }
     }
