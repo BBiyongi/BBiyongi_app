@@ -29,6 +29,15 @@ public class Notification implements Serializable {
     public String getType() { return this.type; }
     public int getImg_url() { return this.img_url; }
     public String getDate() { return this.date; }
+    public String getStringDate() {
+        String year = date.substring(0, 4);
+        String month = date.substring(4, 6);
+        String day = date.substring(6, 8);
+        String hour = date.substring(9, 11);
+        String minute = date.substring(11, 13);
+        String second = date.substring(13, 15);
+        return String.format("%s년 %s월 %s일 %s:%s:%s", year, month, day, hour, minute, second);
+    }
     public String getPos() { return this.pos; }
     public String getLink() { return this.link; }
     public String getCam_id() { return this.cam_id; }

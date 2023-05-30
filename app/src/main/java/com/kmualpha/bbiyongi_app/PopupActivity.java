@@ -13,8 +13,6 @@ import androidx.preference.PreferenceManager;
 
 import com.kmualpha.bbiyongi_app.notifications.Notification;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Objects;
 
 public class PopupActivity extends Activity {
@@ -42,7 +40,7 @@ public class PopupActivity extends Activity {
         // 간편 신고 메시지 form 불러오기
         edit_msg = findViewById(R.id.edit_msg);
         String messageForm = preferences.getString("messageForm", getString(R.string.msg_default));
-        String msg = messageForm.replace(getString(R.string.msg_date), notification.getDate())
+        String msg = messageForm.replace(getString(R.string.msg_date), notification.getStringDate())
                 .replace(getString(R.string.msg_link), notification.getLink())
                 .replace(getString(R.string.msg_pos), notification.getPos())
                 .replace(getString(R.string.msg_type), Objects.equals(notification.getType(), "arrest") ?"심정지가":"폭행이");
@@ -64,7 +62,7 @@ public class PopupActivity extends Activity {
             StringBuffer sb = new StringBuffer();
             int cursor = edit_msg.getSelectionStart();
             sb.append(edit_msg.getText().toString());
-            sb.insert(cursor, notification.getDate());
+            sb.insert(cursor, notification.getStringDate());
             edit_msg.setText(sb.toString());
         });
         // 3. 동영상 링크 입력
@@ -82,7 +80,7 @@ public class PopupActivity extends Activity {
             String sb = edit_msg.getText().toString();
             // 필수 요소를 모두 포함하였을 때 저장
             if (sb.contains(notification.getPos())
-                    && sb.contains(notification.getDate())
+                    && sb.contains(notification.getStringDate())
                     && sb.contains(notification.getLink())) {
                 setting(sb);
                 finish();
@@ -97,7 +95,7 @@ public class PopupActivity extends Activity {
     private void setting(String msg) {
         Toast.makeText(getApplicationContext(), "저장되었습니다.", Toast.LENGTH_SHORT).show();
         // 신고 메시지 형태 프리퍼런스 저장
-        String messageForm = msg.replace(notification.getDate(), getString(R.string.msg_date))
+        String messageForm = msg.replace(notification.getStringDate(), getString(R.string.msg_date))
                 .replace(notification.getPos(), getString(R.string.msg_pos))
                 .replace(notification.getLink(), getString(R.string.msg_link))
                 .replace("심정지가", getString(R.string.msg_type))

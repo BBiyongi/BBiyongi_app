@@ -41,7 +41,7 @@ public class SaveActivity extends AppCompatActivity {
         Intent intent = getIntent();
         notification = (Notification) intent.getSerializableExtra("notification");
         record_date = findViewById(R.id.record_date);
-        record_date.setText("녹화 일시 " + notification.getDate());
+        record_date.setText("녹화 일시 " + notification.getStringDate());
 
         // 심정지 알림일 때만 AED 위치 표시
         TextView aed = findViewById(R.id.aed);
@@ -65,7 +65,7 @@ public class SaveActivity extends AppCompatActivity {
 
         // 간편 신고 메시지 프리퍼런스 불러오기
         String message = preferences.getString("messageForm", getString(R.string.msg_default));
-        String msg = message.replace(getString(R.string.msg_date), notification.getDate())
+        String msg = message.replace(getString(R.string.msg_date), notification.getStringDate())
                 .replace(getString(R.string.msg_link), notification.getLink())
                 .replace(getString(R.string.msg_pos), notification.getPos())
                 .replace(getString(R.string.msg_type), Objects.equals(notification.getType(), "arrest") ?"심정지가":"폭행이");
@@ -93,7 +93,7 @@ public class SaveActivity extends AppCompatActivity {
         super.onResume();
         // 간편 신고 메시지 프리퍼런스 불러오기
         String message = preferences.getString("messageForm", getString(R.string.msg_default));
-        String msg = message.replace(getString(R.string.msg_date), notification.getDate())
+        String msg = message.replace(getString(R.string.msg_date), notification.getStringDate())
                 .replace(getString(R.string.msg_link), notification.getLink())
                 .replace(getString(R.string.msg_pos), notification.getPos())
                 .replace(getString(R.string.msg_type), Objects.equals(notification.getType(), "arrest") ?"심정지가":"폭행이");
