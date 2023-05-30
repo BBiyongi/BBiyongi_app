@@ -6,6 +6,7 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.telephony.SmsManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.MediaController;
@@ -43,6 +44,7 @@ public class SaveActivity extends AppCompatActivity {
         // 알림 intent 받아와서 화면에 출력
         Intent intent = getIntent();
         notification = (Notification) intent.getSerializableExtra("notification");
+        Log.d("push", notification.toString());
 
         video = findViewById(R.id.video);
         // 동영상 로드

@@ -5,11 +5,19 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
+
+import androidx.core.app.NotificationCompat;
 import androidx.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.ImageView;
@@ -131,6 +139,7 @@ public class MainActivity extends AppCompatActivity {
                             String attackJson = gson.toJson(attackList);
                             editor.putString("attackList", attackJson);
                             editor.apply();
+                            makePush(data);
                         }
                         temp_map.clear();  // 초기화
                     }
@@ -146,6 +155,7 @@ public class MainActivity extends AppCompatActivity {
                             String arrestJson = gson.toJson(arrestList);
                             editor.putString("arrestList", arrestJson);
                             editor.apply();
+                            makePush(data);
                         }
                         temp_map.clear();  // 초기화
                     }
@@ -269,4 +279,49 @@ public class MainActivity extends AppCompatActivity {
 
         return !currentDate.after(thirtyDaysAfter);
     }
+
+    /*
+     * 푸시 알림 생성 메소드
+     * 새로 감지된 항목을 받아 푸시 알림을 생성함
+     *
+     */
+    public void makePush(Notification noti) {
+
+        NotificationManager notificationManager=(NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationCompat.Builder builder= null;
+
+        /**
+         * Oreo 버전(API26 버전)이상에서는 알림시에 NotificationChannel 이라는 개념이 필수 구성요소가 되었다.
+         */
+        String channelID="channel_01"; //알림채널 식별자
+        String channelName="MyChannel01"; //알림채널의 이름(별명)
+
+        NotificationChannel channel= new NotificationChannel(channelID,channelName,NotificationManager.IMPORTANCE_DEFAULT);
+        notificationManager.createNotificationChannel(channel);
+
+        builder=new NotificationCompat.Builder(this, channelID);
+
+        builder.setSmallIcon(R.drawable.siren);
+        builder.setContentTitle("응급상황");
+        builder.setContentText(Objects.equals(noti.getType(), "attack") ?"폭행이":"심정지가" + " 감지되었습니다");
+        builder.setAutoCancel(true);
+
+        Bitmap bm= BitmapFactory.decodeResource(getResources(),R.drawable.siren);
+        builder.setLargeIcon(bm);//매개변수가 Bitmap을 줘야한다.
+
+        /**
+         * 푸쉬 알림을 누르면 앱의 MainActivity가 실행된다.
+         */
+
+        Log.d("push", noti.toString());
+
+        PendingIntent pendingIntent;
+        pendingIntent = PendingIntent.getActivity(this, 0, new Intent(getApplicationContext(), MainActivity.class),
+                PendingIntent.FLAG_MUTABLE);
+        builder.setContentIntent(pendingIntent);
+
+        android.app.Notification notification=builder.build();
+        notificationManager.notify(111, notification);
+    }
+
 }
