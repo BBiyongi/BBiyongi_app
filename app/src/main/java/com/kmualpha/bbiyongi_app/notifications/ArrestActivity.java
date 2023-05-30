@@ -95,7 +95,7 @@ public class ArrestActivity extends AppCompatActivity {
             public int compare(Notification n1, Notification n2) {
                 String date1 = n1.getDate();
                 String date2 = n2.getDate();
-                return date1.compareTo(date2);
+                return date2.compareTo(date1);
             }
         });
     }
