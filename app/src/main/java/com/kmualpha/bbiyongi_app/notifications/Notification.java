@@ -12,8 +12,9 @@ public class Notification implements Serializable {
     String link;
     String cam_id;
     boolean checked;
+    String aed;
 
-    public Notification(String type, int img_url, String date, String pos, String link, String cam_id, boolean checked) {
+    public Notification(String type, int img_url, String date, String pos, String link, String cam_id, boolean checked, String aed) {
         if (Objects.equals(type, "attack") || Objects.equals(type, "arrest"))
             this.type = type;
         else
@@ -24,19 +25,30 @@ public class Notification implements Serializable {
         this.link = link;
         this.cam_id = cam_id;
         this.checked = checked;
+        this.aed = aed;
     }
 
     public String getType() { return this.type; }
     public int getImg_url() { return this.img_url; }
     public String getDate() { return this.date; }
+    public String getStringDate() {
+        String year = date.substring(0, 4);
+        String month = date.substring(4, 6);
+        String day = date.substring(6, 8);
+        String hour = date.substring(9, 11);
+        String minute = date.substring(11, 13);
+        String second = date.substring(13, 15);
+        return String.format("%s년 %s월 %s일 %s:%s:%s", year, month, day, hour, minute, second);
+    }
     public String getPos() { return this.pos; }
     public String getLink() { return this.link; }
     public String getCam_id() { return this.cam_id; }
     public boolean getChecked() { return this.checked; }
+    public String getAed() { return this.aed; }
 
     @Override
     public String toString() {
-        return "type: " + type + ", date: " + date + ", pos: " + pos + ", link: " + link + ", camId: " + cam_id + ", checked: " + checked;
+        return "type: " + type + ", date: " + date + ", pos: " + pos + ", link: " + link + ", camId: " + cam_id + ", checked: " + checked + ", AED: " + aed;
     }
 
 }

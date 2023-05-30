@@ -14,7 +14,6 @@ import androidx.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -36,24 +35,22 @@ import com.kmualpha.bbiyongi_app.notifications.Notification;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.Date;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Objects;
 import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
 
+    /*
+    전역변수 선언 1. 필요한 권한
+               2. 프리퍼런스에서 불러올 폭행 및 심정지 알림 목록
+                  각 알림의 날짜를 따로 ArrayList로 관리하여 데이터 중복을 방지함
+     */
     public static String[] permissionList = new String[] {Manifest.permission.SEND_SMS};
 
-    TextView btn_attack;
-    TextView btn_arrest;
-    TextView live_video;
-    ImageView btn_setting;
-    ArrayList<Notification> attackList = new ArrayList<>(); // 프리퍼런스에서 불러올 폭행 알림 목록
-    ArrayList<Notification> arrestList = new ArrayList<>(); // 프리퍼런스에서 불러올 심정지 알림 목록
-    ArrayList<String> attackDate = new ArrayList<>(); // 프리퍼런스에서 불러올 폭행 알림 날짜
-    ArrayList<String> arrestDate = new ArrayList<>(); // 프리퍼런스에서 불러올 심정지 알림 날짜
+    ArrayList<Notification> attackList = new ArrayList<>();
+    ArrayList<Notification> arrestList = new ArrayList<>();
+    ArrayList<String> attackDate = new ArrayList<>();
+    ArrayList<String> arrestDate = new ArrayList<>();
 
 
     // firebase에 저장된 컬렉션 map
@@ -64,10 +61,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // 권한(문자메시지) 확인
+        /*
+        앱 실행 시 1. 필요한 권한을 확인함
+                 2. 내장 메모리에 프리퍼런스로 저장된 알림 목록을 불러옴
+         */
         checkPermission();
 
-        // 앱을 실행할 때마다 프리퍼런스 불러오기
         getNotifications();
 
         // firebase 연결
@@ -99,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
                     // detect가 assault(1)일 경우
                     if (temp_map.get("detect").equals("1")) {
                         // preference로 map 넘겨주기
-                        Notification data = new Notification("attack", R.drawable.siren, temp_map.get("time"), temp_map.get("address"), "www.helloworld", "cam_id", false);
+                        Notification data = new Notification("attack", R.drawable.siren, temp_map.get("time"), temp_map.get("address"), "www.helloworld", "cam_id", false, "");
                         if (!attackDate.contains(temp_map.get("time"))) {
                             attackList.add(data);
                         }
@@ -109,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
                     // detect가 cardiac arrest(2)일 경우
                     else if (temp_map.get("detect").equals("2")) {
                         // preference로 map 넘겨주기
-                        Notification data = new Notification("arrest", R.drawable.siren, temp_map.get("time"), temp_map.get("address"), "www.hi", "cam_id", false);
+                        Notification data = new Notification("arrest", R.drawable.siren, temp_map.get("time"), temp_map.get("address"), "www.hi", "cam_id", false, "AED");
                         // 불러온 알림이 이미 프리퍼런스에 저장되어 있는 알림이면 list에 추가하지 않는다
                         if (!arrestDate.contains(temp_map.get("time"))) {
                             arrestList.add(data);
@@ -161,36 +160,52 @@ public class MainActivity extends AppCompatActivity {
         // StorageReference pathReference = storageRef.child("avideo.mp4");
         Log.e("test", "pathReference");
 
-        // 액티비티 화면 전환 -> 폭행 알림 목록
-        btn_attack = findViewById(R.id.btn_attack);
+        /*
+        액티비티 화면 전환
+        '폭행감지' 버튼 클릭 시 폭행 알림 목록 화면으로 이동
+        폭행 알림 ArrayList를 intent로 넘겨줌
+         */
+        TextView btn_attack = findViewById(R.id.btn_attack);
         btn_attack.setOnClickListener(v -> {
             Intent intent = new Intent(this, AttackActivity.class);
-            // attack notifications 목록 intent 넘겨주기
             intent.putExtra("attackList", attackList);
             startActivity(intent);
         });
-        // 액티비티 화면 전환 -> 심정지 알림 목록
-        btn_arrest = findViewById(R.id.btn_arrest);
+        /*
+        액티비티 화면 전환
+        '심정지' 버튼 클릭 시 심정지 알림 목록 화면으로 이동
+        심정지 알림 ArrayList를 intent로 넘겨줌
+         */
+        TextView btn_arrest = findViewById(R.id.btn_arrest);
         btn_arrest.setOnClickListener(v -> {
             Intent intent = new Intent(this, ArrestActivity.class);
-            // arrest notifications 목록 intent 넘겨주기
             intent.putExtra("arrestList", arrestList);
             startActivity(intent);
         });
-        // 액티비티 화면 전환 -> 실시간 CCTV
-        live_video = findViewById(R.id.live_video);
+        /*
+        액티비티 화면 전환
+        '실시간 동영상 링크' 버튼 클릭 시 실시간 CCTV 화면으로 이동
+         */
+        TextView live_video = findViewById(R.id.live_video);
         live_video.setOnClickListener(v -> {
             Intent intent = new Intent(getApplicationContext(), WebViewActivity.class);
             startActivity(intent);
         });
-        // 액티비티 화면 전환 -> 비상연락망 설정 팝업
-        btn_setting = findViewById(R.id.setting);
+        /*
+        액티비티 화면 전환
+        설정 버튼 클릭 시 비상연락망 설정 화면으로 이동
+         */
+        ImageView btn_setting = findViewById(R.id.setting);
         btn_setting.setOnClickListener(v -> {
             Intent intent = new Intent(getApplicationContext(), AddressActivity.class);
             startActivity(intent);
         });
     }
 
+    /*
+    알림 목록 액티비티에서 알림 확인 후 finish()를 통해 다시 메인 액티비티로 돌아온다면
+    전역변수 ArrayList 내 각 알림의 확인 여부(checked)를 갱신함
+     */
     @Override
     protected void onResume() {
         super.onResume();
@@ -211,12 +226,16 @@ public class MainActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
+    /*
+    프리퍼런스에 저장되어 있는 알림 type(폭행 또는 심정지)에 따라 나누어 알림 목록을 불러옴
+    1. 프리퍼런스에 저장되어 있는 폭행 목록을 불러옴
+    2. "{type}List" 키로 저장된 JSON 형태의 문자열을 불러온 후, Gson을 사용하여 역직렬화하여 ArrayList로 변환
+    3. 각 알림의 날짜(연도, 월, 일, 시, 분, 초)를 date ArrayList에 별도로 관리하여 데이터 중복을 방지함
+     */
     private void getNotifications() {
-        // 1. attackList 불러오기
-        // "{type}List" 키로 저장된 JSON 형태의 문자열을 불러온 후, Gson을 사용하여 역직렬화하여 ArrayList로 변환
         Gson gson = new Gson();
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        if (preferences.contains("attackList")) { // 프리퍼런스에 저장되어 있는 폭행 목록 불러오기
+        if (preferences.contains("attackList")) {
             String json = preferences.getString("attackList", "");
             attackList = gson.fromJson(json, new TypeToken<ArrayList<Notification>>() {
             }.getType());
@@ -226,8 +245,7 @@ public class MainActivity extends AppCompatActivity {
                 attackDate.add(date);
             }
         }
-        // 2. arrestList 불러오기
-        if (preferences.contains("arrestList")) { // 프리퍼런스에 저장되어 있는 심정지 목록 불러오기
+        if (preferences.contains("arrestList")) {
             String json = preferences.getString("arrestList", "");
             arrestList = gson.fromJson(json, new TypeToken<ArrayList<Notification>>() {
             }.getType());

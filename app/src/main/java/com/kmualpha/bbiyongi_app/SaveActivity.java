@@ -41,12 +41,12 @@ public class SaveActivity extends AppCompatActivity {
         Intent intent = getIntent();
         notification = (Notification) intent.getSerializableExtra("notification");
         record_date = findViewById(R.id.record_date);
-        record_date.setText("녹화 일시 " + notification.getDate());
+        record_date.setText("녹화 일시 " + notification.getStringDate());
 
         // 심정지 알림일 때만 AED 위치 표시
         TextView aed = findViewById(R.id.aed);
         if (Objects.equals(notification.getType(), "arrest")) {
-            aed.setText("가장 가까운 자동 제세동기는 " + notification.getPos() + "에 있습니다");
+            aed.setText("가장 가까운 자동 제세동기는 " + notification.getAed() + "에 있습니다");
         } else {
             aed.setVisibility(View.GONE);
         }
@@ -65,7 +65,7 @@ public class SaveActivity extends AppCompatActivity {
 
         // 간편 신고 메시지 프리퍼런스 불러오기
         String message = preferences.getString("messageForm", getString(R.string.msg_default));
-        String msg = message.replace(getString(R.string.msg_date), notification.getDate())
+        String msg = message.replace(getString(R.string.msg_date), notification.getStringDate())
                 .replace(getString(R.string.msg_link), notification.getLink())
                 .replace(getString(R.string.msg_pos), notification.getPos())
                 .replace(getString(R.string.msg_type), Objects.equals(notification.getType(), "arrest") ?"심정지가":"폭행이");
@@ -76,10 +76,15 @@ public class SaveActivity extends AppCompatActivity {
         btn_police.setOnClickListener(v -> {
             String sms = msg_box.getText().toString();
             try{
+                String address = preferences.getString("emergency", "+821085441920");
                 SmsManager smsManager = SmsManager.getDefault();
                 ArrayList<String> parts = smsManager.divideMessage(sms); // 메시지 분할
-                smsManager.sendMultipartTextMessage("+821085441920", null, parts, null, null);
+                smsManager.sendMultipartTextMessage(address, null, parts, null, null);
                 Toast.makeText(getApplicationContext(), "전송을 완료하였습니다.", Toast.LENGTH_SHORT).show();
+//                비상연락망에 112가 포함되어있으면 112로 문자메시지 신고
+//                if (preferences.getBoolean("contain112", false)) {
+//                    smsManager.sendMultipartTextMessage("112", null, parts, null, null);
+//                }
             }
             catch (Exception e) {
                 Toast.makeText(getApplicationContext(), "전송을 실패하였습니다. 다시 시도해 주세요", Toast.LENGTH_SHORT).show();
@@ -93,7 +98,7 @@ public class SaveActivity extends AppCompatActivity {
         super.onResume();
         // 간편 신고 메시지 프리퍼런스 불러오기
         String message = preferences.getString("messageForm", getString(R.string.msg_default));
-        String msg = message.replace(getString(R.string.msg_date), notification.getDate())
+        String msg = message.replace(getString(R.string.msg_date), notification.getStringDate())
                 .replace(getString(R.string.msg_link), notification.getLink())
                 .replace(getString(R.string.msg_pos), notification.getPos())
                 .replace(getString(R.string.msg_type), Objects.equals(notification.getType(), "arrest") ?"심정지가":"폭행이");
