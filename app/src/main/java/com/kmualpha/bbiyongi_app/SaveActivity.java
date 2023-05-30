@@ -76,10 +76,15 @@ public class SaveActivity extends AppCompatActivity {
         btn_police.setOnClickListener(v -> {
             String sms = msg_box.getText().toString();
             try{
+                String address = preferences.getString("emergency", "+821085441920");
                 SmsManager smsManager = SmsManager.getDefault();
                 ArrayList<String> parts = smsManager.divideMessage(sms); // 메시지 분할
-                smsManager.sendMultipartTextMessage("+821085441920", null, parts, null, null);
+                smsManager.sendMultipartTextMessage(address, null, parts, null, null);
                 Toast.makeText(getApplicationContext(), "전송을 완료하였습니다.", Toast.LENGTH_SHORT).show();
+//                비상연락망에 112가 포함되어있으면 112로 문자메시지 신고
+//                if (preferences.getBoolean("contain112", false)) {
+//                    smsManager.sendMultipartTextMessage("112", null, parts, null, null);
+//                }
             }
             catch (Exception e) {
                 Toast.makeText(getApplicationContext(), "전송을 실패하였습니다. 다시 시도해 주세요", Toast.LENGTH_SHORT).show();
