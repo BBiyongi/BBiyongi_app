@@ -80,17 +80,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 Log.e("test", "test");
-//                String value = snapshot.getValue(String.class);
-//                Log.d("MainActivity", String.valueOf(value));
-                Log.e("test", "entering onChildAdded for test");  // 테스트용
-                Log.d("test", "current top Key: " + String.valueOf(snapshot.getKey()));  // 테스트용 - 최상위 key(발생 시기) 조회
+                Log.d("test", "current top Key: " + snapshot.getKey());  // 테스트용 - 최상위 key(발생 시기) 조회
 
                 // 하위 key & value 가져오기
                 for (DataSnapshot childSnapshot : snapshot.getChildren()) {
                     String childKey = childSnapshot.getKey();
                     String childValue = childSnapshot.getValue(String.class);
-                    Log.d("test", "Child Key: " + childKey + ", Child Value: " + childValue);
-
                     temp_map.put(childKey, childValue);
 
                     // detect가 assault(1)이나 cardiac arrest(2)가 아닌 경우
@@ -99,7 +94,6 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     }
                 }
-                Log.d("test", "temp_map: " + String.valueOf(temp_map));
 
                 if (!temp_map.isEmpty()) {
                     // detect가 assault(1)일 경우
@@ -123,7 +117,6 @@ public class MainActivity extends AppCompatActivity {
                         Log.d("test", "assault_list: " + arrestList);
                         temp_map.clear();  // 초기화
                     }
-                    Log.d("test", "clear temp_map: " + String.valueOf(temp_map));
                 }
 
                 // ArrayList를 JSON 형태로 변환하여 저장
@@ -196,6 +189,12 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(getApplicationContext(), AddressActivity.class);
             startActivity(intent);
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getNotifications();
     }
 
     private void checkPermission() {
