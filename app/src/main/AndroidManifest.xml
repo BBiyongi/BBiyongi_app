@@ -38,7 +38,7 @@
         <activity android:name=".SaveActivity" android:label="Save Activity"/>
         <activity android:name=".PopupActivity" android:theme="@android:style/Theme.Dialog"/>
         <activity android:name=".AddressActivity" android:theme="@android:style/Theme.Dialog"/>
-        <service android:name=".fcm.MyFirebaseMessagingService"
+        <service android:name=".MyFirebaseMessagingService"
             android:exported="true">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>

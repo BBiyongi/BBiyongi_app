@@ -1,4 +1,4 @@
-package com.kmualpha.bbiyongi_app.fcm;
+package com.kmualpha.bbiyongi_app;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -32,8 +32,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
-        RemoteMessage.Notification notification = remoteMessage.getNotification();
-        Map<String, String> data = remoteMessage.getData();
+        RemoteMessage.Notification notification = remoteMessage.getNotification(); // 알림 제목
+        Map<String, String> data = remoteMessage.getData(); // 알림 텍스
         Log.d("FROM", remoteMessage.getFrom());
         sendNotification(notification, data);
     }
@@ -54,7 +54,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, "111")
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, getString(R.string.channel_id))
                 .setContentTitle(notification.getTitle()) // 알림 제목
                 .setContentText(notification.getBody()) // 알림 내용
                 .setAutoCancel(true) // 알림을 클릭하면 자동으로 알림 취소
@@ -74,7 +74,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
          */
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(
-                    "111", CHANNEL_NAME, NotificationManager.IMPORTANCE_DEFAULT
+                    getString(R.string.channel_id), CHANNEL_NAME, NotificationManager.IMPORTANCE_DEFAULT
             );
             channel.setDescription(CHANNEL_DESC);
             channel.setShowBadge(true);
