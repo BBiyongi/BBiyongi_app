@@ -6,7 +6,7 @@ CCTV 모션 인식을 통한 심정지 사망 및 범죄 예방 안드로이드 
 
 ## 📷 시연 영상
 
-시연 영상 링크 올려야 함
+추후 업로드 
 
 ---
 
@@ -18,7 +18,7 @@ BBiyongi는 기기를 사용자의 관할 위치나 보호 대상이 생활하�
 
 가정폭력이나 아동폭력, 학교폭력은 남에게 알리거나 도움을 청하는 것이 힘든 경우가 많습니다. 또한 유치원이나 어린이집에서 발생하는 아동폭행, 양로원이나 요양원에서 발생하는 노인폭행의 경우는 보호자가 이를 알아차리기 어렵습니다. BBiyongi를 사용하였을 경우 이러한 사건, 사고를 보호자, 관리자가 쉽게 알 수 있습니다. 뿐만 아니라 외국인의 경우에도 보다 쉽게 폭력 상황을 남에게 알려 범죄를 예방할 수 있습니다.
 
-인식할 수 있는 행동 모션으로는 2023년 5월 기준 폭행, 심정지가 있습니다.
+인식할 수 있는 행동 모션으로는 2023년 5월 기준 폭행, 심정지가 있습니다. 데이터는 AIHub의 이상행동 CCTV 영상을 바탕으로 구성했습니다. 이상행동 CCTV 영상 카테고리 중 폭행, 싸움, 실신을 사용했습니다. 데이터는 xml의 <action> 태그를 바탕으로 획득하였고 이에 해당하지 않는 부분의 영상은 보통으로 분류하였습니다. 행동 인식 모델로는 slowfast 모델을 사용하였습니다. slowfast는 인간의 인지 과정을 모방하여 빠른 프레임 주기와 느린 프레임 주기로 나누어 분석하여 2019년 행동 인지 분야에서 SOTA를 차지한 모델입니다. 이 모델을 임베디드 환경에 최적화 하기 위해 onnx 파일로 변환 후 추론하여 빠르고 정확한 행동 인식이 가능하도록 하였습니다.
 
 ---
 
@@ -30,9 +30,9 @@ BBiyongi는 기기를 사용자의 관할 위치나 보호 대상이 생활하�
 
 ## 🖥️ 개발 환경 및 개발 언어
 
-- 운영체제 : Windows, Ubuntu 20.04, Raspbian
-- 디바이스 구성 : Raspberry pi
-- IDE : Visual Studio Code, Android Studio
+- 운영체제 : Windows, Ubuntu 20.04, Raspbian bullseye
+- 디바이스 구성 : Raspberry pi 4B
+- IDE : Visual Studio Code, Android Studio, 
 - 개발 언어 : Python 3.10.4, Java 18.0.2
 - 데이터베이스 : Firebase Realtime Database, Firebase Cloud Storage
 - 협업 툴 : Github, Notion, Google Meet
@@ -101,4 +101,4 @@ Commit message 는 제목, 본문, 꼬리말로 구성합니다. 제목은 필�
 | <a href="https://github.com/3uhyeon">안수현</a>    | saker123456@kookmin.ac.kr | 팀장 | TM, device, DB             | Python, firebase           |
 | <a href="https://github.com/Eonji-sw">김언지</a>   | ki6z2n5u1m@kookmin.ac.kr  | 팀원 | PM, app, DB                | Python, firebase, Java     |
 | <a href="https://github.com/sehyeon518">이세현</a> | lifethis21@kookmin.ac.kr  | 팀원 | mobile app core and UI     | Java, xml                  |
-| <a href="https://github.com/youngseok0">김영석</a> | ericsky2850@gmail.com     | 팀원 | device, 영석이가 추가할 것 | python, 영석이가 추가할 것 |
+| <a href="https://github.com/youngseok0">김영석</a> | ericsky2850@gmail.com     | 팀원 | device, AI | python |
