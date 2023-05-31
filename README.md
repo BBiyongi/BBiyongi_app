@@ -2,9 +2,13 @@
 
 CCTV 모션 인식을 통한 심정지 사망 및 범죄 예방 안드로이드 애플리케이션
 
+---
+
 ## 📷 시연 영상
 
 시연 영상 링크 올려야 함
+
+---
 
 ## <img src="https://github.com/BBiyongi/BBiyongi_app/assets/84698896/6388bf06-5d03-4daa-ba96-f8c76179a91b" width="30" height="30"/> 소개
 
@@ -16,11 +20,13 @@ BBiyongi는 기기를 사용자의 관할 위치나 보호 대상이 생활하�
 
 인식할 수 있는 행동 모션으로는 2023년 5월 기준 폭행, 심정지가 있습니다.
 
+---
+
 ## ⚙️ 시스템 구성 및 아키텍처
 
 <p align="center"><img src="https://github.com/BBiyongi/BBiyongi_app/assets/85453429/84ba710e-0ca6-4d3c-8d56-e68efc45a84c" width="450"/></p>
 
-여기 설명 써야함
+---
 
 ## 🖥️ 개발 환경 및 개발 언어
 
@@ -31,9 +37,22 @@ BBiyongi는 기기를 사용자의 관할 위치나 보호 대상이 생활하�
 - 데이터베이스 : Firebase Realtime Database, Firebase Cloud Storage
 - 협업 툴 : Github, Notion, Google Meet
 
+---
+
 ## 🖼 구현 화면
 
-여기에 UI 화면 캡쳐해서 넣어야 함
+|                                                                                                                                   |                                                                                                                                   |                                                                                                                                   |
+| --------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| ![KakaoTalk_20230531_103131234](https://github.com/BBiyongi/BBiyongi_app/assets/85453429/d466e0ea-8450-476a-b333-3c8f6375c8f9)    | ![KakaoTalk_20230531_103131234_04](https://github.com/BBiyongi/BBiyongi_app/assets/85453429/d5779e96-da3b-4e2d-bf59-d71cd08875f0) | ![KakaoTalk_20230531_103131234_08](https://github.com/BBiyongi/BBiyongi_app/assets/85453429/9c5d1937-f484-4b1c-a2ff-6f1d925e928a) |
+| 메인화면                                                                                                                          | 알림 감지 내역(미확인)                                                                                                            | 알림 감지 내역(확인)                                                                                                              |
+| ![KakaoTalk_20230531_103131234_05](https://github.com/BBiyongi/BBiyongi_app/assets/85453429/6e209951-0ce7-4f7a-9e57-438dcebd0299) | ![KakaoTalk_20230531_103131234_06](https://github.com/BBiyongi/BBiyongi_app/assets/85453429/f55cb648-dbed-4030-847e-833b9312d736) | ![KakaoTalk_20230531_103131234_07](https://github.com/BBiyongi/BBiyongi_app/assets/85453429/482f303f-7fe6-4d98-b065-3426d16a2593) |
+| 감지 상세화면                                                                                                                     | 감지 상세화면(영상 재생)                                                                                                          | 신고 문자 메시지 수정                                                                                                             |
+| ![KakaoTalk_20230531_103131234_01](https://github.com/BBiyongi/BBiyongi_app/assets/85453429/467872ce-962c-4794-94c9-e3117569ca1d) | ![KakaoTalk_20230531_103131234_02](https://github.com/BBiyongi/BBiyongi_app/assets/85453429/040b3811-6caa-4c89-b082-570397692d93) | ![KakaoTalk_20230531_103131234_03](https://github.com/BBiyongi/BBiyongi_app/assets/85453429/9fbd3885-ce1c-4eaf-bd05-2be569f891f6) |
+| 메시지 권한 설정                                                                                                                  | 비상 연락망 설정                                                                                                                  | 비상 연락망 설정                                                                                                                  |
+| ![KakaoTalk_20230531_103131234_09](https://github.com/BBiyongi/BBiyongi_app/assets/85453429/64051ef7-adc2-46af-8081-b7a6ba750300) | ![KakaoTalk_20230531_111951097](https://github.com/BBiyongi/BBiyongi_app/assets/85453429/45c22597-f64f-4b2b-a421-b183bef848aa)    | ![KakaoTalk_20230531_111951097_01](https://github.com/BBiyongi/BBiyongi_app/assets/85453429/4352af72-7802-434b-b9de-a203780b7901) |
+| 전송된 문자 메시지                                                                                                                | 푸쉬 알림                                                                                                                         | 푸쉬 알림                                                                                                                         |
+
+---
 
 ## Git Commit message Convention
 
@@ -42,6 +61,8 @@ Commit message 는 제목, 본문, 꼬리말로 구성합니다. 제목은 필�
 ```
 <type>: <subject>
 ```
+
+---
 
 ### Commit Type
 
@@ -52,6 +73,8 @@ Commit message 는 제목, 본문, 꼬리말로 구성합니다. 제목은 필�
 - chore : 패키지 매니저 수정, 빌드 업무 수정
 - style : 코드 스타일, 포맷팅
 - refactor : 기능의 변화가 없는 코드 리팩터링
+
+---
 
 ### Commit Message Emoji
 
@@ -68,3 +91,14 @@ Commit message 는 제목, 본문, 꼬리말로 구성합니다. 제목은 필�
 | ➕     | heavy_plus_sign           | 의존성 추가              | Add a dependency.                       |
 | 🔀     | twisted_rightwards_arrows | 브랜치 합병              | Merge branches.                         |
 | 💡     | bulb                      | 주석 추가/수정           | Add or update comments in source code.  |
+
+---
+
+### 팀 정보
+
+| Name                                               | Email                     | Role | Part                       | Tech Stack                 |
+| -------------------------------------------------- | ------------------------- | ---- | -------------------------- | -------------------------- |
+| <a href="https://github.com/3uhyeon">안수현</a>    | saker123456@kookmin.ac.kr | 팀장 | TM, device, DB             | Python, firebase           |
+| <a href="https://github.com/Eonji-sw">김언지</a>   | ki6z2n5u1m@kookmin.ac.kr  | 팀원 | PM, app, DB                | Python, firebase, Java     |
+| <a href="https://github.com/sehyeon518">이세현</a> | lifethis21@kookmin.ac.kr  | 팀원 | mobile app core and UI     | Java, xml                  |
+| <a href="https://github.com/youngseok0">김영석</a> | ericsky2850@gmail.com     | 팀원 | device, 영석이가 추가할 것 | python, 영석이가 추가할 것 |
