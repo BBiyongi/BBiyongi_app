@@ -20,6 +20,7 @@ import android.os.Bundle;
 import androidx.core.app.NotificationCompat;
 import androidx.preference.PreferenceManager;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -218,6 +219,7 @@ public class MainActivity extends AppCompatActivity {
         '실시간 동영상 링크' 버튼 클릭 시 실시간 CCTV 화면으로 이동
          */
         TextView live_video = findViewById(R.id.live_video);
+        live_video.setVisibility(View.GONE);
         live_video.setOnClickListener(v -> {
             Intent intent = new Intent(getApplicationContext(), WebViewActivity.class);
             startActivity(intent);
