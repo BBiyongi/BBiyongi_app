@@ -196,7 +196,6 @@ public class MainActivity extends AppCompatActivity {
             attackList = gson.fromJson(json, new TypeToken<ArrayList<Notification>>() {
             }.getType());
             intent.putExtra("attackList", attackList);
-            Log.e("attack activity", attackList.toString());
             startActivity(intent);
         });
         /*
@@ -210,7 +209,6 @@ public class MainActivity extends AppCompatActivity {
             String json = preferences.getString("arrestList", "");
             arrestList = gson.fromJson(json, new TypeToken<ArrayList<Notification>>() {
             }.getType());
-            Log.e("arrest activity", arrestList.toString());
             intent.putExtra("arrestList", arrestList);
             startActivity(intent);
         });

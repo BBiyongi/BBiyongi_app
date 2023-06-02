@@ -88,6 +88,7 @@ public class AttackActivity extends AppCompatActivity {
         // 알림 목록 intent 받아와서 불러오기
         Intent intent = getIntent();
         notificationArrayList = (ArrayList<Notification>) intent.getSerializableExtra("attackList");
+        if (notificationArrayList == null) notificationArrayList = new ArrayList<>();
 
         // date 필드를 기준으로 정렬
         Collections.sort(notificationArrayList, new Comparator<Notification>() {
