@@ -126,6 +126,11 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
 
+                /*
+                 * Firebase의 알림이 프리퍼런스에 없을 때에만
+                 * 알림 type에 따라 프리퍼런스에 저장하고
+                 * 모바일 기기에 진동으로 알림
+                 */
                 if (!temp_map.isEmpty()) {
                     Log.e("test", temp_map.toString());
                     // detect가 assault(1)일 경우
@@ -185,9 +190,9 @@ public class MainActivity extends AppCompatActivity {
         });
 
         /*
-        액티비티 화면 전환
-        '폭행감지' 버튼 클릭 시 폭행 알림 목록 화면으로 이동
-        폭행 알림 ArrayList를 intent로 넘겨줌
+         * 액티비티 화면 전환
+         * '폭행감지' 버튼 클릭 시 폭행 알림 목록 화면으로 이동
+         * 폭행 알림 ArrayList를 intent로 넘겨줌
          */
         TextView btn_attack = findViewById(R.id.btn_attack);
         btn_attack.setOnClickListener(v -> {
@@ -199,9 +204,9 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
         /*
-        액티비티 화면 전환
-        '심정지' 버튼 클릭 시 심정지 알림 목록 화면으로 이동
-        심정지 알림 ArrayList를 intent로 넘겨줌
+         * 액티비티 화면 전환
+         * '심정지' 버튼 클릭 시 심정지 알림 목록 화면으로 이동
+         * 심정지 알림 ArrayList를 intent로 넘겨줌
          */
         TextView btn_arrest = findViewById(R.id.btn_arrest);
         btn_arrest.setOnClickListener(v -> {
@@ -213,8 +218,8 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
         /*
-        액티비티 화면 전환
-        '실시간 동영상 링크' 버튼 클릭 시 실시간 CCTV 화면으로 이동
+         * 액티비티 화면 전환
+         * '실시간 동영상 링크' 버튼 클릭 시 실시간 CCTV 화면으로 이동
          */
         TextView live_video = findViewById(R.id.live_video);
         live_video.setVisibility(View.GONE);
@@ -223,8 +228,8 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
         /*
-        액티비티 화면 전환
-        설정 버튼 클릭 시 비상연락망 설정 화면으로 이동
+         * 액티비티 화면 전환
+         * 설정 버튼 클릭 시 비상연락망 설정 화면으로 이동
          */
         ImageView btn_setting = findViewById(R.id.setting);
         btn_setting.setOnClickListener(v -> {
@@ -234,8 +239,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /*
-    알림 목록 액티비티에서 알림 확인 후 finish()를 통해 다시 메인 액티비티로 돌아온다면
-    전역변수 ArrayList 내 각 알림의 확인 여부(checked)를 갱신함
+     * 알림 목록 액티비티에서 알림 확인 후 finish()를 통해 다시 메인 액티비티로 돌아온다면
+     * 전역변수 ArrayList 내 각 알림의 확인 여부(checked)를 갱신함
      */
     @Override
     protected void onResume() {
@@ -257,7 +262,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /*
-    현재로부터 30일 지난 날짜의 데이터는 true 반환
+     * 현재로부터 30일 지난 날짜의 데이터는 true 반환
      */
     public static boolean isDateThirtyDaysAgo(String dateString) {
         Calendar currentCalendar = Calendar.getInstance(); // 현재 날짜 가져오기
@@ -283,7 +288,6 @@ public class MainActivity extends AppCompatActivity {
     /*
      * 푸시 알림 생성 메소드
      * 새로 감지된 항목을 받아 푸시 알림을 생성함
-     *
      */
     public void makePush(Notification noti) {
 
