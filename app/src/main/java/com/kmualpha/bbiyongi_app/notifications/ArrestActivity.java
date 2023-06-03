@@ -46,12 +46,14 @@ public class ArrestActivity extends AppCompatActivity {
 
         list_view.setAdapter(myAdapter);
 
-        // 각 알림 intent 전달하여 Save Activity 실행
+        /*
+         * 각 알림 intent 전달하여 Save Activity 실행
+         * 아직 확인하지 않은 알림을 클릭했을 때 checked 갱신하여 preference에 저장
+         */
         list_view.setOnItemClickListener((parent, v, position, id) -> {
             Intent intent = new Intent(getApplicationContext(), SaveActivity.class);
             intent.putExtra("notification", myAdapter.getItem(position));
 
-            // 아직 확인하지 않은 알림이라면 클릭했을 때 checked 갱신
             boolean checked = myAdapter.getItem(position).getChecked();
             if (!checked) {
                 myAdapter.getItem(position).checked = true;
@@ -70,10 +72,13 @@ public class ArrestActivity extends AppCompatActivity {
         });
     }
 
+    /*
+     * 알림 클릭 후 다시 목록 화면으로 돌아오면 checked 여부 갱신된 preference 다시 불러오기
+     */
     @Override
     protected void onResume() {
         super.onResume();
-        // 알림 클릭 후 다시 목록 화면으로 돌아오면 checked 여부 갱신된 list로 설정
+
         try {
             this.InitializeData();
         } catch (ParseException e) {
