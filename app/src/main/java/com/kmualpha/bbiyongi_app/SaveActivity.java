@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.telephony.SmsManager;
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.method.ScrollingMovementMethod;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
@@ -95,6 +96,7 @@ public class SaveActivity extends AppCompatActivity {
 
         // 액티비티 화면 전환 -> 신고 메시지 형태 설정 팝업
         msg_box = findViewById(R.id.msg_box);
+        msg_box.setMovementMethod(new ScrollingMovementMethod());
         msg_box.setOnClickListener(v -> {
             Intent i = new Intent(getApplicationContext(), PopupActivity.class);
             i.putExtra("notification", notification);
