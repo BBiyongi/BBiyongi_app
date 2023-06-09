@@ -284,7 +284,7 @@ public class MainActivity extends AppCompatActivity {
         inputCalendar.add(Calendar.DAY_OF_MONTH, 30);
         Date thirtyDaysAfter = inputCalendar.getTime();
 
-        return !currentDate.after(thirtyDaysAfter);
+        return currentDate.after(thirtyDaysAfter);
     }
 
     /*
