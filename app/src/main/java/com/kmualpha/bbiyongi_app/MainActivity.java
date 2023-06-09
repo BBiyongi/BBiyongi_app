@@ -267,7 +267,7 @@ public class MainActivity extends AppCompatActivity {
     public static boolean isDateThirtyDaysAgo(String dateString) {
         Calendar currentCalendar = Calendar.getInstance(); // 현재 날짜 가져오기
         Date currentDate = currentCalendar.getTime();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyMMdd_HHmm");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmm");
         Date inputDate;
         try {
             inputDate = sdf.parse(dateString);
