@@ -138,8 +138,8 @@ public class MainActivity extends AppCompatActivity {
                         // preference에 없는 알림 DB에서 가져오기
                         Log.e("폭행", temp_map.get("detect"));
                         Notification data = new Notification("attack", R.drawable.siren, temp_map.get("time"), temp_map.get("address"), temp_map.get("fileUrl"), "cam_id", false, "");
-                        if (!attackDate.contains(temp_map.get("time")))  {
-                            Log.e("arraylist에 저장한다", data.getDate());
+                        if (!attackDate.contains(temp_map.get("time")) && !isDateThirtyDaysAgo(data.getDate()))  {
+                            Log.e("arraylist에 저장한다", data.toString());
                             attackList.add(data);
                             attackDate.add(temp_map.get("time"));
                             String attackJson = gson.toJson(attackList);
@@ -154,8 +154,8 @@ public class MainActivity extends AppCompatActivity {
                         // preference에 없는 알림 DB에서 가져오기
                         Log.e("심정지", temp_map.get("detect"));
                         Notification data = new Notification("arrest", R.drawable.siren, temp_map.get("time"), temp_map.get("address"), temp_map.get("fileUrl"), "cam_id", false, temp_map.get("AED"));
-                        if (!arrestDate.contains(temp_map.get("time")) && !isDateThirtyDaysAgo(temp_map.get("time"))) {
-                            Log.e("arraylist에 저장한다", data.getDate());
+                        if (!arrestDate.contains(temp_map.get("time")) && !isDateThirtyDaysAgo(data.getDate())) {
+                            Log.e("arraylist에 저장한다", data.toString());
                             arrestList.add(data);
                             arrestDate.add(temp_map.get("time"));
                             String arrestJson = gson.toJson(arrestList);
@@ -245,6 +245,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        Log.e("resume", arrestList.toString());
+        Log.e("resume", attackList.toString());
     }
 
     private void checkPermission() {
