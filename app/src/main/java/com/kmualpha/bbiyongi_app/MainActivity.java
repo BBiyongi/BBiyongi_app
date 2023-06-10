@@ -296,7 +296,7 @@ public class MainActivity extends AppCompatActivity {
         NotificationManager notificationManager=(NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         NotificationCompat.Builder builder= null;
 
-        /**
+        /*
          * Oreo 버전(API26 버전)이상에서는 알림시에 NotificationChannel 이라는 개념이 필수 구성요소가 되었다.
          */
         String channelID="channel_01"; //알림채널 식별자
@@ -315,7 +315,7 @@ public class MainActivity extends AppCompatActivity {
         Bitmap bm= BitmapFactory.decodeResource(getResources(),R.drawable.siren);
         builder.setLargeIcon(bm);//매개변수가 Bitmap을 줘야한다.
 
-        /**
+        /*
          * 푸쉬 알림을 누르면 앱의 MainActivity가 실행된다.
          */
 
