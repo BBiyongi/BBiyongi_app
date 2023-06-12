@@ -2,10 +2,15 @@ package com.kmualpha.bbiyongi_app;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.telephony.SmsManager;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.method.ScrollingMovementMethod;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -72,7 +77,15 @@ public class SaveActivity extends AppCompatActivity {
         // 심정지 알림일 때만 AED 위치 표시
         TextView aed = findViewById(R.id.aed);
         if (Objects.equals(notification.getType(), "arrest")) {
-            aed.setText("가장 가까운 자동 제세동기는 " + notification.getAed() + "에 있습니다");
+            String aedText = "가장 가까운 자동 제세동기는 " + notification.getAed() + "에 있습니다";
+            SpannableString spannableString = new SpannableString(aedText);
+            ForegroundColorSpan redColorSpan = new ForegroundColorSpan(Color.parseColor("#ff5252"));
+            // 위치 텍스트에 대해 빨간색 스팬을 적용
+            int startIndex = aedText.indexOf(notification.getAed());
+            int endIndex = startIndex + notification.getAed().length();
+            spannableString.setSpan(redColorSpan, startIndex, endIndex, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            // TextView에 SpannableString 설정
+            aed.setText(spannableString);
         } else {
             aed.setVisibility(View.GONE);
         }
@@ -83,6 +96,7 @@ public class SaveActivity extends AppCompatActivity {
 
         // 액티비티 화면 전환 -> 신고 메시지 형태 설정 팝업
         msg_box = findViewById(R.id.msg_box);
+        msg_box.setMovementMethod(new ScrollingMovementMethod());
         msg_box.setOnClickListener(v -> {
             Intent i = new Intent(getApplicationContext(), PopupActivity.class);
             i.putExtra("notification", notification);

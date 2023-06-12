@@ -126,6 +126,11 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
 
+                /*
+                 * Firebase의 알림이 프리퍼런스에 없을 때에만
+                 * 알림 type에 따라 프리퍼런스에 저장하고
+                 * 모바일 기기에 진동으로 알림
+                 */
                 if (!temp_map.isEmpty()) {
                     Log.e("test", temp_map.toString());
                     // detect가 assault(1)일 경우
@@ -133,8 +138,8 @@ public class MainActivity extends AppCompatActivity {
                         // preference에 없는 알림 DB에서 가져오기
                         Log.e("폭행", temp_map.get("detect"));
                         Notification data = new Notification("attack", R.drawable.siren, temp_map.get("time"), temp_map.get("address"), temp_map.get("fileUrl"), "cam_id", false, "");
-                        if (!attackDate.contains(temp_map.get("time")))  {
-                            Log.e("arraylist에 저장한다", data.getDate());
+                        if (!attackDate.contains(temp_map.get("time")) && !isDateThirtyDaysAgo(data.getDate()))  {
+                            Log.e("arraylist에 저장한다", data.toString());
                             attackList.add(data);
                             attackDate.add(temp_map.get("time"));
                             String attackJson = gson.toJson(attackList);
@@ -149,8 +154,8 @@ public class MainActivity extends AppCompatActivity {
                         // preference에 없는 알림 DB에서 가져오기
                         Log.e("심정지", temp_map.get("detect"));
                         Notification data = new Notification("arrest", R.drawable.siren, temp_map.get("time"), temp_map.get("address"), temp_map.get("fileUrl"), "cam_id", false, temp_map.get("AED"));
-                        if (!arrestDate.contains(temp_map.get("time")) && !isDateThirtyDaysAgo(temp_map.get("time"))) {
-                            Log.e("arraylist에 저장한다", data.getDate());
+                        if (!arrestDate.contains(temp_map.get("time")) && !isDateThirtyDaysAgo(data.getDate())) {
+                            Log.e("arraylist에 저장한다", data.toString());
                             arrestList.add(data);
                             arrestDate.add(temp_map.get("time"));
                             String arrestJson = gson.toJson(arrestList);
@@ -185,9 +190,9 @@ public class MainActivity extends AppCompatActivity {
         });
 
         /*
-        액티비티 화면 전환
-        '폭행감지' 버튼 클릭 시 폭행 알림 목록 화면으로 이동
-        폭행 알림 ArrayList를 intent로 넘겨줌
+         * 액티비티 화면 전환
+         * '폭행감지' 버튼 클릭 시 폭행 알림 목록 화면으로 이동
+         * 폭행 알림 ArrayList를 intent로 넘겨줌
          */
         TextView btn_attack = findViewById(R.id.btn_attack);
         btn_attack.setOnClickListener(v -> {
@@ -196,13 +201,12 @@ public class MainActivity extends AppCompatActivity {
             attackList = gson.fromJson(json, new TypeToken<ArrayList<Notification>>() {
             }.getType());
             intent.putExtra("attackList", attackList);
-            Log.e("attack activity", attackList.toString());
             startActivity(intent);
         });
         /*
-        액티비티 화면 전환
-        '심정지' 버튼 클릭 시 심정지 알림 목록 화면으로 이동
-        심정지 알림 ArrayList를 intent로 넘겨줌
+         * 액티비티 화면 전환
+         * '심정지' 버튼 클릭 시 심정지 알림 목록 화면으로 이동
+         * 심정지 알림 ArrayList를 intent로 넘겨줌
          */
         TextView btn_arrest = findViewById(R.id.btn_arrest);
         btn_arrest.setOnClickListener(v -> {
@@ -210,13 +214,12 @@ public class MainActivity extends AppCompatActivity {
             String json = preferences.getString("arrestList", "");
             arrestList = gson.fromJson(json, new TypeToken<ArrayList<Notification>>() {
             }.getType());
-            Log.e("arrest activity", arrestList.toString());
             intent.putExtra("arrestList", arrestList);
             startActivity(intent);
         });
         /*
-        액티비티 화면 전환
-        '실시간 동영상 링크' 버튼 클릭 시 실시간 CCTV 화면으로 이동
+         * 액티비티 화면 전환
+         * '실시간 동영상 링크' 버튼 클릭 시 실시간 CCTV 화면으로 이동
          */
         TextView live_video = findViewById(R.id.live_video);
         live_video.setVisibility(View.GONE);
@@ -225,8 +228,8 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
         /*
-        액티비티 화면 전환
-        설정 버튼 클릭 시 비상연락망 설정 화면으로 이동
+         * 액티비티 화면 전환
+         * 설정 버튼 클릭 시 비상연락망 설정 화면으로 이동
          */
         ImageView btn_setting = findViewById(R.id.setting);
         btn_setting.setOnClickListener(v -> {
@@ -236,12 +239,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /*
-    알림 목록 액티비티에서 알림 확인 후 finish()를 통해 다시 메인 액티비티로 돌아온다면
-    전역변수 ArrayList 내 각 알림의 확인 여부(checked)를 갱신함
+     * 알림 목록 액티비티에서 알림 확인 후 finish()를 통해 다시 메인 액티비티로 돌아온다면
+     * 전역변수 ArrayList 내 각 알림의 확인 여부(checked)를 갱신함
      */
     @Override
     protected void onResume() {
         super.onResume();
+        Log.e("resume", arrestList.toString());
+        Log.e("resume", attackList.toString());
     }
 
     private void checkPermission() {
@@ -259,12 +264,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /*
-    현재로부터 30일 지난 날짜의 데이터는 true 반환
+     * 현재로부터 30일 지난 날짜의 데이터는 true 반환
      */
     public static boolean isDateThirtyDaysAgo(String dateString) {
         Calendar currentCalendar = Calendar.getInstance(); // 현재 날짜 가져오기
         Date currentDate = currentCalendar.getTime();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyMMdd_HHmm");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmm");
         Date inputDate;
         try {
             inputDate = sdf.parse(dateString);
@@ -279,20 +284,19 @@ public class MainActivity extends AppCompatActivity {
         inputCalendar.add(Calendar.DAY_OF_MONTH, 30);
         Date thirtyDaysAfter = inputCalendar.getTime();
 
-        return !currentDate.after(thirtyDaysAfter);
+        return currentDate.after(thirtyDaysAfter);
     }
 
     /*
      * 푸시 알림 생성 메소드
      * 새로 감지된 항목을 받아 푸시 알림을 생성함
-     *
      */
     public void makePush(Notification noti) {
 
         NotificationManager notificationManager=(NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         NotificationCompat.Builder builder= null;
 
-        /**
+        /*
          * Oreo 버전(API26 버전)이상에서는 알림시에 NotificationChannel 이라는 개념이 필수 구성요소가 되었다.
          */
         String channelID="channel_01"; //알림채널 식별자
@@ -311,7 +315,7 @@ public class MainActivity extends AppCompatActivity {
         Bitmap bm= BitmapFactory.decodeResource(getResources(),R.drawable.siren);
         builder.setLargeIcon(bm);//매개변수가 Bitmap을 줘야한다.
 
-        /**
+        /*
          * 푸쉬 알림을 누르면 앱의 MainActivity가 실행된다.
          */
 
