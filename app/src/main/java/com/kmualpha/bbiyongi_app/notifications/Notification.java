@@ -21,7 +21,8 @@ public class Notification implements Serializable {
             this.type = "attack";
         this.img_url = img_url;
         this.date = date;
-        this.pos = pos;
+        this.pos = Objects.equals(pos, "") ?"서울특별시 성북구 정릉로 77":pos;
+        // this.pos = pos;
         this.link = link;
         this.cam_id = cam_id;
         this.checked = checked;
